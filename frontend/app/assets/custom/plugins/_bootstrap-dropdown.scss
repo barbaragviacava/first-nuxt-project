@@ -1,0 +1,17 @@
+.dropdown .dropdown-menu {
+
+    .dropdown-item, li, .b-dropdown-form, .b-dropdown-form fieldset {
+        &:focus {
+            outline: none !important;
+        }
+        &:focus-visible {
+            outline: none !important;
+        }
+        &:active {
+            outline: none !important;
+        }
+        &:target {
+            outline: none !important;
+        }
+    }
+}

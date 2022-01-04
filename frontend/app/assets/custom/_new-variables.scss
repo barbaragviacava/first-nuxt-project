@@ -1,0 +1,14 @@
+// Layout - Top Menu
+$top-menu-font-size: 15px !default;
+$top-menu-font-weight: 400 !default;
+$top-menu-letter-spacing: 1px !default;
+$top-menu-color: $white !default;
+$top-menu-color-hover: $primary !default;
+$top-menu-color-hover-opacity: 1 !default;
+
+// Assets - Images
+$image-cover-scrum-board: url(./custom/images/cover-scrum-board.png) !default;
+
+$images: (
+    'cover-scrum-board': $image-cover-scrum-board
+);

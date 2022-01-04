@@ -1,0 +1,7 @@
+:root {
+
+    @each $image, $value in $images {
+        --image-#{$image}: #{$value};
+    }
+
+}

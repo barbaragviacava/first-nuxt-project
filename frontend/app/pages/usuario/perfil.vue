@@ -1,0 +1,270 @@
+<template>
+    <div>
+        <BRow>
+            <BCol md="2">
+
+                <BCard no-body class="mb-3">
+                    <BCardBody style="margin: 0 auto">
+                        <AvatarUser size="150px" :rounded="false" />
+                    </BCardBody>
+
+                    <BCardBody class="text-center">
+                        <BaseButton type="button" class="btn btn-link" :loading="isLoading" @click="$refs.file.click()">Mudar Imagem</BaseButton>
+
+                        <form ref="formFile">
+                            <input ref="file" type="file" accept="image/*" class="d-none" @change="loadImage($event)" />
+                        </form>
+                    </BCardBody>
+                </BCard>
+
+            </BCol>
+            <BCol>
+                <BasePanel title="Edição do perfil">
+                    <template #body>
+
+                        <ValidationObserver ref="form" v-slot="{ passes }">
+                            <form method="POST" @submit.prevent="passes(onSubmit)">
+
+                                <fieldset>
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+
+                                            <ValidationProvider v-slot="{ errors, classes }" vid="name" :name="labels.name" rules="required">
+                                                <InputFloating v-model.trim="user.name" type="text" :label="labels.name" :input-classes="classes" :readonly="isLoading" />
+                                                <InputErrorsList :errors="errors" />
+                                            </ValidationProvider>
+
+                                            <br />
+
+                                            <ValidationProvider v-slot="{ errors, classes }" vid="email" :name="labels.email" rules="required|email">
+                                                <InputFloating v-model.trim="user.email" type="email" :label="labels.email" :input-classes="classes" :readonly="isLoading" />
+                                                <InputErrorsList :errors="errors" />
+                                            </ValidationProvider>
+                                        </div>
+                                    </div>
+                                    <BaseButton type="submit" class="btn btn-primary w-100px me-5px" :loading="isLoading">Salvar</BaseButton>
+                                </fieldset>
+                            </form>
+                        </ValidationObserver>
+
+                    </template>
+                </BasePanel>
+            </BCol>
+        </BRow>
+
+        <BModal
+            id="modal-cropper"
+            hide-header
+            cancel-title="Cancelar"
+            ok-title="Salvar"
+            @hidden="onModalHidden"
+            @ok="crop">
+
+            <Cropper
+                ref="cropper"
+                class="upload-example__cropper"
+                check-orientation
+                :src="image"
+                :debounce="false"
+                :stencil-props="{
+                    aspectRatio: 1,
+                }"
+                :max-height="500"
+                :max-width="500"
+                @change="onCropperChange"
+            />
+
+            <BContainer fluid class="p-4 bg-dark">
+                <div class="d-flex justify-content-center">
+                    <div class="p-4">
+                        <CropperPreview
+                            class="img-thumbnail"
+                            :width="120"
+                            :height="120"
+                            :image="preview.image"
+                            :coordinates="preview.coordinates"
+                        />
+                    </div>
+                    <div class="p-4">
+                        <CropperPreview
+                            class="img-thumbnail"
+                            :width="90"
+                            :height="90"
+                            :image="preview.image"
+                            :coordinates="preview.coordinates"
+                        />
+                    </div>
+                    <div class="p-4">
+                        <CropperPreview
+                            class="img-thumbnail"
+                            :width="50"
+                            :height="50"
+                            :image="preview.image"
+                            :coordinates="preview.coordinates"
+                        />
+                    </div>
+                </div>
+            </BContainer>
+
+            <template #modal-footer>
+                <div class="w-100">
+                    <BaseButton class="btn btn-secondary" :loading="isLoading" @click="$bvModal.hide('modal-cropper')">Cancelar</BaseButton>
+                    <BaseButton class="btn btn-primary" :loading="isLoading" @click="crop()">Salvar</BaseButton>
+                </div>
+            </template>
+
+        </BModal>
+
+    </div>
+</template>
+
+<script>
+import { ValidationProvider, ValidationObserver } from "vee-validate";
+
+export default {
+    components: {
+        ValidationObserver,
+        ValidationProvider
+    },
+    asyncData({ $auth }) {
+        const user = $auth.getUser()
+
+        return {
+            user: {
+                name: user.name,
+                email: user.email
+            }
+        }
+    },
+    data() {
+        return {
+            labels: {
+                name : 'Nome',
+                email : 'E-mail'
+            },
+            size: 150,
+            image: null,
+            preview: {
+				coordinates: null,
+				image: null
+			}
+        }
+    },
+    computed: {
+        isLoading() {
+            return this.$coreLoading.isActive();
+        },
+
+        cssVars() {
+            return {
+                '--size': this.size + 'px'
+            }
+        },
+    },
+    methods: {
+
+        async onSubmit() {
+            try {
+
+                await this.$repository.usuarios.update(this.user);
+
+                this.$auth.setUser(this.user)
+
+                this.$toast.success('Alterado com sucesso!')
+
+            } catch (error) {
+                const errorInfo = this.$errorHandler.setAndParse(error)
+
+                if (errorInfo.status == 422) {
+                    this.$refs.form.setErrors(this.$errorHandler.get());
+                } else {
+                    this.$toast.error(errorInfo.message)
+                }
+            }
+        },
+
+        onCropperChange({ coordinates, image }) {
+			this.preview = {
+				coordinates,
+				image
+			};
+		},
+
+        onModalHidden() {
+            this.image = null
+            this.preview = {
+				coordinates: null,
+				image: null
+            }
+            this.$refs.formFile.reset();
+        },
+
+        crop() {
+			const { canvas } = this.$refs.cropper.getResult();
+			canvas.toBlob(async (blob) => {
+
+				const formData = new FormData();
+
+                formData.append('avatar', blob);
+
+                const { url } = await this.$repository.usuarios.avatar(formData);
+
+                this.$auth.setUser({ avatar: url })
+
+                this.$bvModal.hide('modal-cropper')
+
+                this.$toast.success('Imagem alterada com sucesso!')
+
+			}, 'image/jpg');
+		},
+
+		loadImage(event) {
+
+            this.$bvModal.show('modal-cropper')
+
+			const { files } = event.target;
+
+			if (files && files[0]) {
+
+				// Revoke the object URL, to allow the garbage collector to destroy the uploaded before file
+				if (this.image) {
+					URL.revokeObjectURL(this.image);
+				}
+
+				// Create the blob link to the file to optimize performance:
+				const blob = URL.createObjectURL(files[0]);
+				const reader = new FileReader();
+
+				reader.onload = (e) => {
+					this.image = blob;
+				};
+
+				reader.readAsArrayBuffer(files[0]);
+			}
+		}
+    }
+}
+</script>
+
+<style scoped>
+
+.avatar-buttons-container {
+    position: relative;
+}
+
+.avatar-buttons-container .btn-camera {
+    position: absolute;
+    top:40%;
+    left:45%;
+}
+
+.btn-camera input {
+    display: none;
+}
+
+.user-avatar {
+    width: var(--size);
+    height: var(--size);
+}
+
+</style>

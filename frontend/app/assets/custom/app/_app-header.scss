@@ -1,0 +1,24 @@
+.app-header {
+	& .navbar-nav {
+		& .navbar-item {
+			& .navbar-link {
+				&:focus {
+					opacity: $top-menu-color-hover-opacity;
+					color: $top-menu-color-hover !important;
+				}
+			}
+		}
+	}
+	&.app-header-inverse {
+		& .navbar-nav {
+			& > .navbar-item {
+				& > .navbar-link {
+					font-weight: $top-menu-font-weight;
+					color: $top-menu-color;
+					font-size: $top-menu-font-size;
+					letter-spacing: $top-menu-letter-spacing;
+				}
+			}
+		}
+	}
+}

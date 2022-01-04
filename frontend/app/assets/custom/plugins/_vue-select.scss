@@ -1,0 +1,74 @@
+
+/* Vue Select */
+.v-select {
+	body & {
+		& .vs__dropdown-toggle {
+			border: 1px solid $input-border-color;
+			padding: 0;
+
+			&:after {
+				display: block !important;
+			}
+		}
+		& .vs__actions {
+			padding: 0 rem(12px);
+			opacity: 0.75;
+
+			&:after {
+				content: '' !important;
+			}
+			& .vs__clear {
+				opacity: .75;
+
+				@if $enable-rtl {
+					margin-left: rem(15px);
+				} @else {
+					margin-right: rem(15px);
+				}
+
+				&:after {
+					content: '' !important;
+				}
+			}
+			& .vs__open-indicator,
+			& .vs__clear svg {
+				display: block !important;
+			}
+		}
+		& .vs__selected-options {
+			margin: 0 rem(5px);
+
+			& .vs__selected {
+				margin: 0;
+				min-height: rem(32px);
+			}
+		}
+		& .vs__search {
+			height: rem(32px);
+			margin: 0;
+			padding: rem(5px);
+			border: none;
+		}
+
+		& .vs__dropdown-menu {
+			padding: 0;
+			border: none;
+
+			@include box-shadow($box-shadow);
+
+			& .vs__dropdown-option {
+				padding: rem(8px) $dropdown-item-padding-x;
+				font-weight: $font-weight-bold;
+
+				&.vs__dropdown-option--selected {
+					background: $component-active-bg;
+					color: $component-active-color;
+				}
+				&.vs__dropdown-option--highlight {
+					color: $gray-900;
+					background: $gray-200;
+				}
+			}
+		}
+	}
+}

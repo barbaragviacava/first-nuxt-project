@@ -1,0 +1,23 @@
+version: '3.7'
+services:
+    trum_front:
+        image: treinamento-frontend:latest
+        container_name: trum-front
+        stdin_open: true
+        build:
+            dockerfile: ./docker/Dockerfile
+            context: .
+        env_file:
+            - ./env/dev.env
+        volumes:
+            - ./app:/app
+        ports:
+            - "80:3000"
+        environment:
+            HOST: 0.0.0.0
+        networks:
+            - backend_core_admin
+            
+networks:
+    backend_core_admin:
+        external: true

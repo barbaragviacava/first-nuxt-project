@@ -1,0 +1,13 @@
+.table {
+    &.table-row-dashed {
+        tr, td, th {
+            border-bottom-width: 1px;
+            border-bottom-style: dashed;
+            border-bottom-color: #eff2f5;
+        }
+    }
+
+    &.fsuper {
+        font-size: 0.95rem;
+    }
+}
