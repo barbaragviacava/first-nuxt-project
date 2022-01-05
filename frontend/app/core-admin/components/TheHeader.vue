@@ -18,7 +18,7 @@
                         <AvatarUser size="30px" :rounded="true" class="me-2" />
 						<span v-if="$auth.isAuthenticated()">{{ $auth.getUser().name }}</span> <b class="caret"></b>
 					</template>
-                    <NuxtLink to="usuario/perfil" class="dropdown-item">Perfil</NuxtLink>
+                    <NuxtLink :to="{ name: 'usuario-perfil' }" class="dropdown-item">Perfil</NuxtLink>
 					<a href="javascript:;" class="dropdown-item" @click="logout">Sair</a>
 				</b-nav-item-dropdown>
 			</div>
