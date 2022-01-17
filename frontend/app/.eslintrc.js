@@ -18,7 +18,6 @@ module.exports = {
   // add your custom rules here
   rules: {
     "camelcase": "off",
-    "no-prototype-builtins": "off",
     "eqeqeq": "off",
     "vue/require-prop-types": "off",
     "vue/require-default-prop": "off",
