@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Scopes\ActiveScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -32,11 +31,6 @@ class Categoria extends Model
         'created_by',
     ];
 
-    protected static function booted()
-    {
-        static::addGlobalScope(new ActiveScope);
-    }
-
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -50,6 +44,15 @@ class Categoria extends Model
      */
     public function categoriasFilhas()
     {
-        return $this->hasMany(self::class, 'id', 'categoria_pai_id');
+        return $this->hasMany(self::class, 'categoria_pai_id', 'id');
+    }
+
+    /**
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeAtivado($query)
+    {
+        return $query->where('active', true);
     }
 }

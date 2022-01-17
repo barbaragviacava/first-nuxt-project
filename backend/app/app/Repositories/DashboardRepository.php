@@ -19,6 +19,6 @@ class DashboardRepository extends BaseRepository
      */
     public function contarCategorias()
     {
-        return Categoria::count();
+        return Categoria::ativado()->count();
     }
 }

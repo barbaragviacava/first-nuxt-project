@@ -19,7 +19,7 @@ class CategoriaResource extends JsonResource
         return [
             'id' => $this->id,
             'nome' => $this->nome,
-            'active' => $this->active,
+            'active' => (bool)$this->active,
             'categoria_pai_id' => $this->categoria_pai_id,
             'categoriasFilhas' => CategoriaResource::collection($this->whenLoaded('categoriasFilhas')),
             'categoriaPai' => new CategoriaResource($this->whenLoaded('categoriaPai')),
