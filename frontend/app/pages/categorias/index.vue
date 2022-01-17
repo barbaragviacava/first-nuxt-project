@@ -1,6 +1,11 @@
 <template>
     <div>
 
+        <BBreadcrumb class="float-xl-end">
+            <BBreadcrumbItem :to="{ name: 'dashboard' }">Início</BBreadcrumbItem>
+            <BBreadcrumbItem active>Categorias</BBreadcrumbItem>
+        </BBreadcrumb>
+
         <BaseTitle>
             Categorias
             <small>Gerenciamento de categorias</small>
@@ -14,11 +19,11 @@
                     <BCol cols="12" md="3" class="me-2 mb-2">
                         <BInputGroup>
                             <BInputGroupText class="bg-primary text-light border-0"><fa icon="search" /></BInputGroupText>
-                            <input v-model.lazy="filtros.nome" type="text" class="form-control" placeholder="Pesquise pelo nome aqui">
+                            <input v-model.lazy="filtros.nome" type="text" class="form-control" placeholder="Pesquise pelo nome aqui" :readonly="isLoading">
                         </BInputGroup>
                     </BCol>
                     <BCol cols="6" md="4" class="mb-2">
-                        <BDropdown right split no-flip variant="white" menu-class="w-300px">
+                        <BDropdown right no-flip variant="white" menu-class="w-300px" :disabled="isLoading">
                             <template #button-content>
                                 <fa icon="filter" class="me-2" /> Mais Filtros
                             </template>
@@ -27,16 +32,16 @@
                                     <div class="mb-3">
                                         <label class="form-label">Situação</label>
                                         <div class="form-check mb-2">
-                                            <input id="filtro-actived-1" v-model="filtros.active" value="" class="form-check-input" type="radio" name="actived" checked />
-                                            <label class="form-check-label" for="filtro-actived-1">Todas</label>
+                                            <input id="filtro-active-1" v-model="filtros.active" value="" class="form-check-input" type="radio" name="active" checked />
+                                            <label class="form-check-label" for="filtro-active-1">Todas</label>
                                         </div>
                                         <div class="form-check mb-2">
-                                            <input id="filtro-actived-2" v-model="filtros.active" value="sim" class="form-check-input" type="radio" name="actived" />
-                                            <label class="form-check-label" for="filtro-actived-2">Apenas ativas</label>
+                                            <input id="filtro-active-2" v-model="filtros.active" value="sim" class="form-check-input" type="radio" name="active" />
+                                            <label class="form-check-label" for="filtro-active-2">Apenas ativas</label>
                                         </div>
                                         <div class="form-check">
-                                            <input id="filtro-actived-3" v-model="filtros.active" value="nao" class="form-check-input" type="radio" name="actived" />
-                                            <label class="form-check-label" for="filtro-actived-3">Apenas inativas</label>
+                                            <input id="filtro-active-3" v-model="filtros.active" value="nao" class="form-check-input" type="radio" name="active" />
+                                            <label class="form-check-label" for="filtro-active-3">Apenas inativas</label>
                                         </div>
                                     </div>
                                 </fieldset>
@@ -51,8 +56,10 @@
                 </BRow>
 
                 <BTable
+                    ref="table"
                     table-class="table-row-dashed align-middle fsuper"
                     responsive
+                    sort-icon-left
                     :items="listar"
                     :fields="fields"
                     :filter="filtros"
@@ -63,7 +70,9 @@
                     @sort-changed="onSortChange"
                 >
                     <template #table-busy>
-                        <BaseLoading color="gray" />
+                        <div class="w-100 text-center">
+                            <LoaderDefault :size="70" color="gray" />
+                        </div>
                     </template>
 
                     <template #cell(active)="row">
@@ -77,14 +86,14 @@
                     </template>
 
                     <template #cell(actions)="row">
-                        <BDropdown right text="Ações" variant="default" no-caret>
+                        <BDropdown right text="Ações" variant="default" no-caret boundary="window">
                             <template #button-content>
                                 Ações <fa icon="angle-down" class="ms-1" />
                             </template>
                             <BDropdownItem @click="edit(row.item)">
                                 Editar
                             </BDropdownItem>
-                            <BDropdownItem @click="toggleActived(row.item)">
+                            <BDropdownItem @click="toggleActive(row.item)">
                                 {{ row.item.active ? 'Inativar' : 'Ativar' }}
                             </BDropdownItem>
                             <BDropdownItem @click="remove(row.item)">
@@ -147,6 +156,11 @@ export default {
     head: {
         title: 'Categorias'
     },
+    computed: {
+        isLoading() {
+            return this.$coreLoading.isActive();
+        }
+    },
     methods: {
         async listar() {
             const { data, meta } = await this.$repository.categorias.list({
@@ -170,12 +184,54 @@ export default {
             this.$router.push({name: 'categorias-form-id', params: {id : item.id }});
         },
 
-        toggleActived(item) {
+        toggleActive(item) {
+            this.$swal.fire({
+                title: 'Tem certeza?',
+                html: `A categoria "${item.nome}" e suas associadas serão <strong>${item.active ? 'in' : ''}ativadas</strong>.`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: 'var(--bs-primary)',
+                confirmButtonText: 'Sim',
+                cancelButtonText: 'Não',
+            }).then(async (result) => {
 
+                if (result.isConfirmed) {
+                    try {
+                        await this.$repository.categorias.toggleActive(item.id)
+
+                        this.$refs.table.refresh();
+                    } catch (error) {
+                        const errorInfo = this.$errorHandler.setAndParse(error)
+
+                        this.$toast.error(errorInfo.message)
+                    }
+                }
+            })
         },
 
         remove(item) {
+            this.$swal.fire({
+                title: '',
+                text: `Tem certeza que deseja remover categoria "${item.nome}"?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: 'var(--bs-primary)',
+                confirmButtonText: 'Sim, pode remover',
+                cancelButtonText: 'Não, não quero remover',
+            }).then(async (result) => {
 
+                if (result.isConfirmed) {
+                    try {
+                        await this.$repository.categorias.delete(item.id)
+
+                        this.$refs.table.refresh();
+                    } catch (error) {
+                        const errorInfo = this.$errorHandler.setAndParse(error)
+
+                        this.$toast.error(errorInfo.message)
+                    }
+                }
+            })
         },
 
         criar() {

@@ -1,6 +1,12 @@
 <template>
     <div>
 
+        <BBreadcrumb class="float-xl-end">
+            <BBreadcrumbItem :to="{ name: 'dashboard' }">Início</BBreadcrumbItem>
+            <BBreadcrumbItem :to="{ name: 'categorias' }">Categorias</BBreadcrumbItem>
+            <BBreadcrumbItem active>{{(isEdit ? 'Editando' : 'Criando') +  ' Categoria'}}</BBreadcrumbItem>
+        </BBreadcrumb>
+
         <BaseTitle>
             Categorias
             <small>{{isEdit ? 'Editando' : 'Criando uma nova'}} categoria</small>
@@ -14,51 +20,32 @@
 
                             <BRow>
                                 <BCol>
-                                    <ValidationProvider v-slot="{ errors, classes }" :name="labels.nome" rules="required">
+                                    <ValidationProvider v-slot="{ errors, classes }" vid="nome" :name="labels.nome" rules="required">
                                         <div class="mb-3">
                                             <label class="form-label" for="nome" :class="{'vee-error' : $validationHelper.hasFieldError(errors)}">{{labels.nome}}</label>
-                                            <BaseInput id="nome" v-model="registro.nome" :placeholder="labels.nome" :readonly="isLoading" :class="classes" />
+                                            <BaseInput id="nome" v-model.trim="registro.nome" :placeholder="labels.nome" :readonly="isLoading" :class="classes" />
                                             <InputErrorsList :errors="errors" />
                                         </div>
                                     </ValidationProvider>
                                 </BCol>
                                 <BCol>
-                                    <ValidationProvider v-slot="{ errors, classes }" :name="labels.categoria_pai_id" rules="required">
+                                    <ValidationProvider v-slot="{ errors, classes }" vid="categoria_pai_id" :name="labels.categoria_pai_id">
                                         <div class="mb-3">
                                             <label class="form-label" for="categoria_pai_id" :class="{'vee-error' : $validationHelper.hasFieldError(errors)}">{{labels.categoria_pai_id}}</label>
-                                            <VSelect
-                                                id="categoria_pai_id"
-                                                v-model="registro.categoria_pai_id"
-                                                :options="categorias"
-                                                :placeholder="labels.categoria_pai_id"
-                                                :readonly="isLoading"
+                                            <SelectInfiniteCategoria
+                                                v-model="registro.categoriaPai"
+                                                input-id="categoria_pai_id"
                                                 :class="classes"
-                                                :filterable="false"
-                                                @search="onSearch"
-                                            >
-                                                <template #spinner="{ loading }">
-                                                    <div
-                                                        v-if="loading"
-                                                        style="border-left-color: rgba(88, 151, 251, 0.71)"
-                                                        class="vs__spinner"
-                                                    >
-                                                        Buscando...
-                                                    </div>
-                                                </template>
-                                                <template slot="no-options">
-                                                    Nenhum resultado encontrado
-                                                </template>
-                                                <template #open-indicator="{ attributes }">
-                                                    <fa icon="angle-down" v-bind="attributes"></fa>
-                                                </template>
-                                            </VSelect>
+                                                :placeholder="labels.categoria_pai_id"
+                                                :disabled="isLoading"
+                                            />
                                             <InputErrorsList :errors="errors" />
                                         </div>
                                     </ValidationProvider>
                                 </BCol>
                             </BRow>
 
-                            <ValidationProvider v-slot="{ errors }" :name="labels.active" rules="required">
+                            <ValidationProvider v-show="!isEdit" v-slot="{ errors }" :name="labels.active" rules="required">
                                 <label class="form-label col-form-label col-md-3">Criar a categoria como ativa?</label>
                                 <div class="form-check form-switch">
                                     <input id="active" v-model="registro.active" class="form-check-input" type="checkbox" />
@@ -70,8 +57,8 @@
 
                             <hr />
 
-                            <BaseButton type="submit" class="btn-purple" :loading="isLoading">{{isEdit ? 'Atualizar' : 'Criar'}}</BaseButton>
-                            <BaseButton type="button" class="btn-default" title="Você será redirecionado para a listagem" @click="cancelar">Cancelar</BaseButton>
+                            <BaseButton type="submit" class="btn-purple w-100px" :loading="isLoading">Salvar</BaseButton>
+                            <BaseButton type="button" class="btn-default w-100px" title="Você será redirecionado para a listagem" @click="voltar">Voltar</BaseButton>
 
                         </fieldset>
                     </form>
@@ -91,6 +78,19 @@ export default {
         ValidationObserver,
         ValidationProvider
     },
+    async asyncData({ params, $repository, error, $errorHandler }) {
+        try {
+            if (params.id > 0) {
+                const registro = await $repository.categorias.show(params.id)
+                return { registro }
+            }
+        } catch(errorException) {
+            const errorResponse = $errorHandler.setAndParse(errorException)
+
+            error({ statusCode: errorResponse.status, message: errorResponse.message })
+        }
+        return {}
+    },
     data() {
         return {
             labels: {
@@ -100,12 +100,8 @@ export default {
             },
             registro: {
                 active: true
-            },
-            categorias: []
+            }
         }
-    },
-    async fetch() {
-        await this.buscarCategorias()
     },
     head() {
         return {
@@ -118,7 +114,7 @@ export default {
         },
         isEdit() {
             return this.$route.params.id > 0
-        }
+        },
     },
     methods: {
 
@@ -133,13 +129,13 @@ export default {
         async store() {
             try {
 
+                this.registro.categoria_pai_id = (this.registro.categoriaPai != null ? this.registro.categoriaPai.id : null)
+
                 const registroNovo = await this.$repository.categorias.create(this.registro);
 
                 this.$toast.success('Criada com sucesso! Você será redirecionado para a tela de edição.')
 
                 this.$router.push({ name: 'categorias-form-id', params: {id : registroNovo.id} })
-
-                this.registro = registroNovo
 
             } catch (error) {
                 const errorInfo = this.$errorHandler.setAndParse(error)
@@ -152,26 +148,31 @@ export default {
             }
         },
 
-        update() {
+        async update() {
+            try {
 
+                this.registro.categoria_pai_id = (this.registro.categoriaPai != null ? this.registro.categoriaPai.id : null)
+
+                const registroAtualizado = await this.$repository.categorias.update(this.registro.id, this.registro);
+
+                this.$toast.success('Atualizada com sucesso!')
+
+                this.registro = registroAtualizado
+
+            } catch (error) {
+                const errorInfo = this.$errorHandler.setAndParse(error)
+
+                if (errorInfo.status == 422) {
+                    this.$refs.form.setErrors(this.$errorHandler.get());
+                } else {
+                    this.$toast.error(errorInfo.message)
+                }
+            }
         },
 
-        cancelar() {
+        voltar() {
             this.$router.push({ name: 'categorias' })
-        },
-
-        async onSearch(search, loading) {
-            loading(true)
-            await this.buscarCategorias(search)
-            loading(false)
-        },
-
-        buscarCategorias(search) {
-            return this.$repository.categorias.list({active: true, sortBy: 'nome', nome: search}).then(({data}) => {
-                console.log(data)
-                this.categorias = data.map(categoria => ({label: categoria.nome, code: categoria.id}))
-            })
-        },
+        }
     }
 }
 </script>
