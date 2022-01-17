@@ -114,6 +114,16 @@ export default {
     failedColor: 'var(--bs-warning)'
   },
 
+  layoutTransition: {
+    name: 'layout',
+    mode: 'out-in'
+  },
+
+  pageTransition: {
+    name: 'page',
+    mode: 'out-in',
+  },
+
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     transpile: ["vee-validate/dist/rules"],
