@@ -22,7 +22,6 @@ export const mutations = {
             avatar = state.user.avatar
         }
     ) {
-        console.log('store, set_user')
         state.user = { id, email, name, avatar }
     },
 
