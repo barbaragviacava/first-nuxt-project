@@ -1,5 +1,16 @@
 <template>
     <div>
+
+        <BBreadcrumb class="float-xl-end">
+            <BBreadcrumbItem :to="{ name: 'dashboard' }">Início</BBreadcrumbItem>
+            <BBreadcrumbItem active>Perfil</BBreadcrumbItem>
+        </BBreadcrumb>
+
+        <BaseTitle>
+            Perfil
+            <small>Edite seus dados pessoais e a imagem do seu avatar</small>
+        </BaseTitle>
+
         <BRow>
             <BCol md="2">
 
@@ -19,7 +30,7 @@
 
             </BCol>
             <BCol>
-                <BasePanel title="Edição do perfil">
+                <BasePanel>
                     <template #body>
 
                         <ValidationObserver ref="form" v-slot="{ passes }">
@@ -42,7 +53,8 @@
                                             </ValidationProvider>
                                         </div>
                                     </div>
-                                    <BaseButton type="submit" class="btn btn-primary w-100px me-5px" :loading="isLoading">Salvar</BaseButton>
+                                    <hr />
+                                    <BaseButton type="submit" class="btn-purple w-100px me-5px" :loading="isLoading">Salvar</BaseButton>
                                 </fieldset>
                             </form>
                         </ValidationObserver>
@@ -148,6 +160,11 @@ export default {
 				coordinates: null,
 				image: null
 			}
+        }
+    },
+    head() {
+        return {
+            title: 'Perfil',
         }
     },
     computed: {
