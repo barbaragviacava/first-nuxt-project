@@ -40,7 +40,12 @@ Route::group(['middleware' => ['auth:api']], function() {
     });
 
     Route::resource('categorias', \App\Http\Controllers\CategoriaController::class)->only([
-        'index', 'store'
+        'index', 'store', 'show', 'update', 'destroy'
     ]);
+
+    Route::group(['prefix' => 'categorias'], function () {
+
+        Route::put('/toggleActive/{categoria}', [\App\Http\Controllers\CategoriaController::class, 'toggleActive'])->name('categorias.toggleActive');
+    });
 
 });

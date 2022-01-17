@@ -11,7 +11,7 @@ trait UpdateTraitRepository
     /**
      * @param int $id
      * @param array $data
-     * @return boolean
+     * @return Model
      */
     public function findAndUpdate($id, $data) {
         return $this->update($this->model->findOrFail($id), $data);
@@ -20,10 +20,11 @@ trait UpdateTraitRepository
     /**
      * @param Model $model
      * @param array $data
-     * @return boolean
+     * @return Model
      */
     public function update(Model $model, $data) {
         $model->fill($data);
-        return $model->save();
+        $model->save();
+        return $model;
     }
 }

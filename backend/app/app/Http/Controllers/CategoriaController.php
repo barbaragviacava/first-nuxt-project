@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CategoriaStoreRequest;
-use App\Http\Resources\CategoriaCollection;
+use App\Http\Requests\CategoriaRequest;
+use App\Http\Resources\CategoriaResource;
 use App\Models\Categoria;
 use App\Repositories\CategoriaRepository;
 use Illuminate\Http\Request;
@@ -22,8 +22,6 @@ class CategoriaController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -32,36 +30,46 @@ class CategoriaController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CategoriaStoreRequest $request)
+    public function store(CategoriaRequest $request)
     {
-        return $this->repository->create($request->all());
+        return new CategoriaResource($this->repository->create($request->all())->load('categoriaPai'));
     }
 
     /**
-     * Update the specified resource in storage.
-     *
+     * @param  \App\Models\Categoria  $categoria
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Categoria $categoria)
+    {
+        return new CategoriaResource($categoria->load('categoriaPai'));
+    }
+
+    /**
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Categoria  $Categoria
+     * @param  \App\Models\Categoria  $categoria
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Categoria $Categoria)
+    public function update(CategoriaRequest $request, Categoria $categoria)
     {
-        //
+        return new CategoriaResource($this->repository->update($categoria, $request->all())->load('categoriaPai'));
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Categoria  $Categoria
-     * @return \Illuminate\Http\Response
+     * @param  \App\Models\Categoria  $categoria
      */
-    public function destroy(Categoria $Categoria)
+    public function destroy(Categoria $categoria)
     {
-        //
+        $this->repository->delete($categoria);
+    }
+
+    /**
+     * @param Categoria $categoria
+     */
+    public function toggleActive(Categoria $categoria)
+    {
+        $this->repository->toggleActive($categoria);
     }
 }
