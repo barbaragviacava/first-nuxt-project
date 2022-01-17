@@ -10,7 +10,7 @@ it('deve retornar código 401 ao buscar a quantidade de categorias sem estar log
     getJson(route('dashboard.contarCategorias'))
         ->assertStatus(401);
 
-})->group('dashboard.contarCategorias');
+})->group('dashboard', 'dashboard.contarCategorias');
 
 it('deve retornar código 200 ao buscar a quantidade de categorias com usuário logado', function () {
 
@@ -18,7 +18,7 @@ it('deve retornar código 200 ao buscar a quantidade de categorias com usuário 
         ->getJson(route('dashboard.contarCategorias'))
         ->assertStatus(200);
 
-})->group('dashboard.contarCategorias');
+})->group('dashboard', 'dashboard.contarCategorias');
 
 it('deve confirmar que existem 25 categorias ativas', function () {
 
@@ -30,7 +30,7 @@ it('deve confirmar que existem 25 categorias ativas', function () {
         ->content()
         ->toEqual(count($categoriasAtivas));
 
-})->group('dashboard.contarCategorias');
+})->group('dashboard', 'dashboard.contarCategorias');
 
 //--------------------//
 
@@ -39,7 +39,7 @@ it('deve retornar código 401 ao buscar a quantidade de produtos sem estar logad
     getJson(route('dashboard.contarProdutos'))
         ->assertStatus(401);
 
-})->group('dashboard.contarProdutos');
+})->group('dashboard', 'dashboard.contarProdutos');
 
 it('deve retornar código 200 ao buscar a quantidade de produtos com usuário logado', function () {
 
@@ -47,7 +47,7 @@ it('deve retornar código 200 ao buscar a quantidade de produtos com usuário lo
         ->getJson(route('dashboard.contarProdutos'))
         ->assertStatus(200);
 
-})->group('dashboard.contarProdutos');
+})->group('dashboard', 'dashboard.contarProdutos');
 
 it('deve confirmar que existem 25 produtos', function () {
 
@@ -57,4 +57,4 @@ it('deve confirmar que existem 25 produtos', function () {
         ->content()
         ->toEqual(count($produtos));
 
-})->group('dashboard.contarProdutos');
+})->group('dashboard', 'dashboard.contarProdutos');

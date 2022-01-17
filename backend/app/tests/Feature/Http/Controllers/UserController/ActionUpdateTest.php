@@ -7,7 +7,7 @@ it('deve retornar código 401 ao tentar atualizar os dados do usuário sem estar
     putJson(route('usuarios.update'))
         ->assertStatus(401);
 
-})->group('usuarios.update');
+})->group('usuarios', 'usuarios.update');
 
 it('deve retornar código 200 ao tentar atualizar os dados do usuário quando logado', function () {
 
@@ -15,7 +15,7 @@ it('deve retornar código 200 ao tentar atualizar os dados do usuário quando lo
         ->putJson(route('usuarios.update'))
         ->assertStatus(200);
 
-})->group('usuarios.update');
+})->group('usuarios', 'usuarios.update');
 
 it('deve ser capaz de mudar os dados do usuário', function () {
 
@@ -28,7 +28,7 @@ it('deve ser capaz de mudar os dados do usuário', function () {
         ->putJson(route('usuarios.update'), $novosDados)
         ->assertStatus(200);
 
-})->group('usuarios.update');
+})->group('usuarios', 'usuarios.update');
 
 it('deve retornar código 422 quando incluir um e-mail inválido para o usuário', function () {
 
@@ -40,4 +40,4 @@ it('deve retornar código 422 quando incluir um e-mail inválido para o usuário
         ->putJson(route('usuarios.update'), $novosDados)
         ->assertStatus(422);
 
-})->group('usuarios.update');
+})->group('usuarios', 'usuarios.update');

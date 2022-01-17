@@ -11,7 +11,7 @@ it('deve retornar código 401 ao tentar consultar as categorias sem estar logado
     getJson(route('categorias.index'))
         ->assertStatus(401);
 
-})->group('categorias.index');
+})->group('categorias', 'categorias.index');
 
 it('deve retornar código 401 ao tentar consultar as categorias quando logado', function () {
 
@@ -19,7 +19,7 @@ it('deve retornar código 401 ao tentar consultar as categorias quando logado', 
         ->getJson(route('categorias.index'))
         ->assertStatus(200);
 
-})->group('categorias.index');
+})->group('categorias', 'categorias.index');
 
 it('deve retornar um array com a estrutura [\'data\', \'meta\', \'links\'] ao consultar as categorias', function () {
 
@@ -31,7 +31,7 @@ it('deve retornar um array com a estrutura [\'data\', \'meta\', \'links\'] ao co
             'meta',
         ]);
 
-})->group('categorias.index');
+})->group('categorias', 'categorias.index');
 
 it('deve retornar uma lista de 15 categorias', function () {
 
@@ -44,7 +44,7 @@ it('deve retornar uma lista de 15 categorias', function () {
     expect($resposta['data'])
         ->toHaveLength(count($categoriasAtivas) + count($categoriasInativas));
 
-})->group('categorias.index');
+})->group('categorias', 'categorias.index');
 
 it('deve retornar uma lista de 10 categorias quando filtrado por apenas ativas', function () {
 
@@ -57,7 +57,7 @@ it('deve retornar uma lista de 10 categorias quando filtrado por apenas ativas',
     expect($resposta['data'])
         ->toHaveLength(count($categoriasAtivas));
 
-})->group('categorias.index.filtros');
+})->group('categorias', 'categorias.index', 'categorias.index.filtros');
 
 it('deve retornar uma lista de 5 categorias quando filtrado por apenas inativas', function () {
 
@@ -70,7 +70,7 @@ it('deve retornar uma lista de 5 categorias quando filtrado por apenas inativas'
     expect($resposta['data'])
         ->toHaveLength(count($categoriasInativas));
 
-})->group('categorias.index.filtros');
+})->group('categorias', 'categorias.index', 'categorias.index.filtros');
 
 it('deve retornar um usuário chamado "Geralt de Rivia" quando filtrado pelo nome "de r"', function () {
 
@@ -87,7 +87,7 @@ it('deve retornar um usuário chamado "Geralt de Rivia" quando filtrado pelo nom
         ->toHaveLength(1)
         ->each(fn ($categoria) => $categoria->toMatchArray($nomeCategoria));
 
-})->group('categorias.index.filtros');
+})->group('categorias', 'categorias.index', 'categorias.index.filtros');
 
 it('não deve retornar nenhuma categoria se filtrado por apenas ativas e não tiver nenhuma ativa', function () {
 
@@ -99,7 +99,7 @@ it('não deve retornar nenhuma categoria se filtrado por apenas ativas e não ti
     expect($resposta['data'])
         ->toHaveLength(0);
 
-})->group('categorias.index.filtros');
+})->group('categorias', 'categorias.index', 'categorias.index.filtros');
 
 it('deve retornar uma lista de 20 categorias (paginação)', function () {
 
@@ -111,4 +111,4 @@ it('deve retornar uma lista de 20 categorias (paginação)', function () {
     expect($resposta['data'])
         ->toHaveLength(BaseRepository::PAGINATE_DEFAULT);
 
-})->group('categorias.index.paginacao');
+})->group('categorias', 'categorias.index', 'categorias.index.paginacao');

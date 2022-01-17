@@ -21,7 +21,7 @@ it('deve retornar código 201 quando tentar criar uma categoria estando logado',
         ])
         ->assertStatus(201);
 
-})->group('categorias.store');
+})->group('categorias', 'categorias.store');
 
 it('deve criar uma categoria com nome "Geralt de Rivia" e ativa', function() {
 
@@ -34,7 +34,7 @@ it('deve criar uma categoria com nome "Geralt de Rivia" e ativa', function() {
             ->json()
         )->toMatchArray($novaCategoria + ['active' => true]);
 
-})->group('categorias.store');
+})->group('categorias', 'categorias.store');
 
 it('deve criar uma categoria com o mesmo nome de outra categoria inativa já existente', function() {
 
@@ -48,7 +48,7 @@ it('deve criar uma categoria com o mesmo nome de outra categoria inativa já exi
         ->postJson(route('categorias.store'), $categoriaNova)
         ->assertStatus(201);
 
-})->group('categorias.store');
+})->group('categorias', 'categorias.store');
 
 it('deve criar uma categoria relacionada à uma categoria pai', function() {
 
@@ -61,7 +61,7 @@ it('deve criar uma categoria relacionada à uma categoria pai', function() {
         ])
         ->assertStatus(201);
 
-})->group('categorias.store');
+})->group('categorias', 'categorias.store');
 
 it('deve retornar código 422 se não informar o nome da categoria', function() {
 
@@ -69,7 +69,7 @@ it('deve retornar código 422 se não informar o nome da categoria', function() 
         ->postJson(route('categorias.store'))
         ->assertStatus(422);
 
-})->group('categorias.store.validacao');
+})->group('categorias', 'categorias.store', 'categorias.store.validacao');
 
 it('deve retornar código 422 se informar o nome vazio da categoria', function() {
 
@@ -77,7 +77,7 @@ it('deve retornar código 422 se informar o nome vazio da categoria', function()
         ->postJson(route('categorias.store'), ['nome' => ''])
         ->assertStatus(422);
 
-})->group('categorias.store.validacao');
+})->group('categorias', 'categorias.store', 'categorias.store.validacao');
 
 it('deve retornar código 422 se informar um nome já existente de uma categoria ativa', function() {
 
@@ -91,7 +91,7 @@ it('deve retornar código 422 se informar um nome já existente de uma categoria
         ->postJson(route('categorias.store'), $categoriaNova)
         ->assertStatus(422);
 
-})->group('categorias.store.validacao');
+})->group('categorias', 'categorias.store', 'categorias.store.validacao');
 
 it('deve retornar código 422 se informar o id de uma categoria pai não existente', function() {
 
@@ -104,4 +104,4 @@ it('deve retornar código 422 se informar o id de uma categoria pai não existen
         ->postJson(route('categorias.store'), $categoriaNova)
         ->assertStatus(422);
 
-})->group('categorias.store.validacao');
+})->group('categorias', 'categorias.store', 'categorias.store.validacao');

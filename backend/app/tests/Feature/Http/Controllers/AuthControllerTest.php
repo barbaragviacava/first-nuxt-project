@@ -9,7 +9,7 @@ it('deve retornar código 200 ao realizar login', function () {
         'email' => $this->user->email,
         'password' => 'password',
     ])->assertStatus(200);
-})->group('login');
+})->group('auth', 'login');
 
 it('deve retornar uma estrutura json específica ao realizar login', function () {
 
@@ -21,14 +21,14 @@ it('deve retornar uma estrutura json específica ao realizar login', function ()
         'token_type',
         'expires_in',
     ]);
-})->group('login');
+})->group('auth', 'login');
 
 it('deve retornar erro 401 quando NÃO informar o e-mail na tentativa de login', function() {
 
     postJson(route('login'), [
         'password' => 'password',
     ])->assertStatus(401);
-})->group('login.email');
+})->group('auth', 'login.email');
 
 it('deve retornar erro 401 quando informar um e-mail NÃO existente na tentativa de login', function() {
 
@@ -36,14 +36,14 @@ it('deve retornar erro 401 quando informar um e-mail NÃO existente na tentativa
         'email' => 'testeemailnaoexistente0000@teste.com',
         'password' => 'password',
     ])->assertStatus(401);
-})->group('login.email');
+})->group('auth', 'login.email');
 
 it('deve retornar erro 401 quando NÃO informar a senha na tentativa de login', function() {
 
     postJson(route('login'), [
         'email' => $this->user->email,
     ])->assertStatus(401);
-})->group('login.senha');
+})->group('auth', 'login.senha');
 
 it('deve retornar erro 401 quando informar uma senha incorreta na tentativa de login', function() {
 
@@ -51,19 +51,19 @@ it('deve retornar erro 401 quando informar uma senha incorreta na tentativa de l
         'email' => $this->user->email,
         'password' => 'umasenhaincorreta0000',
     ])->assertStatus(401);
-})->group('login.senha');
+})->group('auth', 'login.senha');
 
 it('deve retornar código 401 para buscar informações do user logado sem ter feito login', function () {
 
     getJson(route('auth.user'))
         ->assertStatus(401);
-})->group('api.user');
+})->group('auth', 'api.user');
 
 it('deve retornar código 200 para a requisição de usuário logado', function () {
     actingAsUserApi()
         ->getJson(route('auth.user'))
         ->assertStatus(200);
-})->group('api.user');
+})->group('auth', 'api.user');
 
 it('deve retornar as informações do usuário logado', function () {
     actingAsUserApi()
@@ -73,16 +73,16 @@ it('deve retornar as informações do usuário logado', function () {
             'name',
             'email',
         ]);
-})->group('api.user');
+})->group('auth', 'api.user');
 
 it('deve retornar código 200 para a requisição de logout de um usuário logado', function () {
     actingAsUserApi()
         ->postJson(route('auth.logout'))
         ->assertStatus(200);
-})->group('auth.logout');
+})->group('auth', 'auth.logout');
 
 it('deve retornar código 200 para a requisição de logout SEM um usuário logado', function () {
 
     postJson(route('auth.logout'))
         ->assertStatus(200);
-})->group('auth.logout');
+})->group('auth', 'auth.logout');
