@@ -4,7 +4,7 @@
         <div class="stats-info">
             <h4 class="text-uppercase">{{infoTitle}}</h4>
             <p v-if="!loading">{{infoValue}}</p>
-            <BaseLoading v-else color="white" :size="10" />
+            <LoaderDefault v-else color="white" :size="30" />
         </div>
         <div v-if="linkToDetails" class="stats-link">
             <NuxtLink :to="linkToDetails">Ver Detalhes <fa icon="arrow-alt-circle-right"></fa></NuxtLink>

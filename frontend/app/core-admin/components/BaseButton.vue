@@ -1,18 +1,12 @@
 <template>
     <button class="btn" :disabled="loading" v-bind="$props" @click="handleClick">
-        <slot v-if="!loading"></slot>
-        <BaseLoading v-else color="white" :size="10" />
+        <slot></slot><LoaderBars v-if="loading" color="white" :size="18" class="ms-2" />
     </button>
 </template>
 
 <script>
 
-import BaseLoading from './BaseLoading'
-
 export default {
-    components: {
-        BaseLoading,
-    },
     props: {
         loading: {
             default: false,

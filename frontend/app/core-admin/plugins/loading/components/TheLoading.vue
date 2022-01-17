@@ -1,17 +1,11 @@
 <template>
     <div v-show="isLoading" class="loading-screen" :style="{backgroundColor:bc}">
-        <BaseLoading />
+        <LoaderDefault />
     </div>
 </template>
 
 <script>
-import BaseLoading from '../../../components/BaseLoading.vue'
-
 export default {
-    name: 'TheLoading',
-    components: {
-        BaseLoading,
-    },
     props: {
         dark: {
             default: false,
