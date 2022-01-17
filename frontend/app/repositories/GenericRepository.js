@@ -19,5 +19,9 @@ export default $axios => resource => ({
 
     delete(id) {
         return $axios.$delete(`${proxy + '/' + resource}/${id}`)
+    },
+
+    toggleActive(id) {
+        return $axios.$put(`${proxy + '/' + resource}/toggleActive/${id}`)
     }
 })
