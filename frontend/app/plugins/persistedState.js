@@ -12,7 +12,7 @@ export default ({ store, isDev, $cookies }) => {
             getItem: key => $cookies.get(key, {parseJSON : true}),
             setItem: (key, value) => {
                 if (key !== '@@') {
-                    $cookies.set(key, value, { maxAge: 60 * 60 * 24 * config.numberDaysToExpires, secure: !isDev })
+                    $cookies.set(key, value, { maxAge: 60 * 60 * 24 * config.numberDaysToExpires, path: '/', secure: !isDev })
                 }
             },
             removeItem: key => $cookies.remove(key)
