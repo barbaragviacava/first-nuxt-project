@@ -3,12 +3,12 @@
 
         <BBreadcrumb class="float-xl-end">
             <BBreadcrumbItem :to="{ name: 'dashboard' }">Início</BBreadcrumbItem>
-            <BBreadcrumbItem active>Categorias</BBreadcrumbItem>
+            <BBreadcrumbItem active>{{ PLURAL_NAME }}</BBreadcrumbItem>
         </BBreadcrumb>
 
         <BaseTitle>
-            Categorias
-            <small>Gerenciamento de categorias</small>
+            {{ PLURAL_NAME }}
+            <small>Gerenciamento de {{ PLURAL_NAME }}</small>
         </BaseTitle>
 
         <BasePanel>
@@ -50,7 +50,7 @@
                     </BCol>
                     <BCol class="text-end mb-2">
                         <BaseButton class="btn-purple px-4" @click="criar">
-                            <fa icon="plus" class="me-2"/> Criar Categoria
+                            <fa icon="plus" class="me-2"/> Criar {{SINGULAR_NAME}}
                         </BaseButton>
                     </BCol>
                 </BRow>
@@ -60,14 +60,14 @@
                     table-class="table-row-dashed align-middle fsuper"
                     responsive
                     sort-icon-left
+                    no-local-sorting
                     :items="listar"
                     :fields="fields"
                     :filter="filtros"
                     :current-page="meta.current_page"
                     :per-page="meta.per_page"
-                    :sort-by="ordernation.sortBy"
-                    :sort-desc="ordernation.sortDesc"
-                    @sort-changed="onSortChange"
+                    :sort-by.sync="ordernation.sortBy"
+                    :sort-desc.sync="ordernation.sortDesc"
                 >
                     <template #table-busy>
                         <div class="w-100 text-center">
@@ -105,7 +105,7 @@
 
                 <div class="d-md-flex align-items-center">
                     <div class="me-md-auto text-md-left text-center mb-2 mb-md-0">
-                        Mostrando {{meta.per_page}} do total de {{meta.total}} categorias
+                        Mostrando {{meta.per_page}} do total de {{meta.total}} {{ PLURAL_NAME | lower }}
                     </div>
                     <ul class="pagination mb-0 justify-content-center">
                         <BPagination
@@ -127,9 +127,13 @@
 </template>
 
 <script>
+import { PLURAL_NAME, SINGULAR_NAME } from '~/repositories/CategoriaRepository'
+
 export default {
     data () {
         return {
+            PLURAL_NAME,
+            SINGULAR_NAME,
             fields: [
                 { key: 'nome', label: 'Nome', sortable: true },
                 {
@@ -154,7 +158,7 @@ export default {
         }
     },
     head: {
-        title: 'Categorias'
+        title: PLURAL_NAME
     },
     computed: {
         isLoading() {
@@ -175,19 +179,17 @@ export default {
             return data;
         },
 
-        onSortChange(ctx) {
-            this.ordernation.sortBy = ctx.sortBy
-            this.ordernation.sortDesc = ctx.sortDesc
-        },
-
         edit(item) {
             this.$router.push({name: 'categorias-form-id', params: {id : item.id }});
         },
 
         toggleActive(item) {
+
+            const singular_name = SINGULAR_NAME.toLowerCase()
+
             this.$swal.fire({
                 title: 'Tem certeza?',
-                html: `A categoria "${item.nome}" e suas associadas serão <strong>${item.active ? 'in' : ''}ativadas</strong>.`,
+                html: `A ${singular_name} "${item.nome}" e suas associadas serão <strong>${item.active ? 'in' : ''}ativadas</strong>.`,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: 'var(--bs-primary)',
@@ -210,9 +212,11 @@ export default {
         },
 
         remove(item) {
+            const singular_name = SINGULAR_NAME.toLowerCase()
+
             this.$swal.fire({
                 title: '',
-                text: `Tem certeza que deseja remover categoria "${item.nome}"?`,
+                text: `Tem certeza que deseja remover ${singular_name} "${item.nome}"?`,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: 'var(--bs-primary)',

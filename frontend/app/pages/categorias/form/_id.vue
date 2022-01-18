@@ -3,13 +3,13 @@
 
         <BBreadcrumb class="float-xl-end">
             <BBreadcrumbItem :to="{ name: 'dashboard' }">Início</BBreadcrumbItem>
-            <BBreadcrumbItem :to="{ name: 'categorias' }">Categorias</BBreadcrumbItem>
-            <BBreadcrumbItem active>{{(isEdit ? 'Editando' : 'Criando') +  ' Categoria'}}</BBreadcrumbItem>
+            <BBreadcrumbItem :to="{ name: 'categorias' }">{{PLURAL_NAME}}</BBreadcrumbItem>
+            <BBreadcrumbItem active>{{(isEdit ? 'Editando' : 'Criando') +' '+ SINGULAR_NAME}}</BBreadcrumbItem>
         </BBreadcrumb>
 
         <BaseTitle>
-            Categorias
-            <small>{{isEdit ? 'Editando' : 'Criando uma nova'}} categoria</small>
+            {{PLURAL_NAME}}
+            <small>{{isEdit ? 'Editando' : 'Criando uma nova'}} {{SINGULAR_NAME | lower}}</small>
         </BaseTitle>
 
         <BasePanel>
@@ -46,12 +46,12 @@
                             </BRow>
 
                             <ValidationProvider v-show="!isEdit" v-slot="{ errors }" :name="labels.active" rules="required">
-                                <label class="form-label col-form-label col-md-3">Criar a categoria como ativa?</label>
+                                <label class="form-label col-form-label col-md-3">Criar a {{SINGULAR_NAME | lower}} como ativa?</label>
                                 <div class="form-check form-switch">
                                     <input id="active" v-model="registro.active" class="form-check-input" type="checkbox" />
                                     <label class="form-check-label" for="active">Sim</label>
                                 </div>
-                                <small class="text-muted">Você pode alterar a situação da categoria a qualquer momento</small>
+                                <small class="text-muted">Você pode alterar a situação da {{SINGULAR_NAME | lower}} a qualquer momento</small>
                                 <InputErrorsList :errors="errors" />
                             </ValidationProvider>
 
@@ -72,6 +72,7 @@
 
 <script>
 import { ValidationProvider, ValidationObserver } from "vee-validate";
+import { PLURAL_NAME, SINGULAR_NAME } from '~/repositories/CategoriaRepository'
 
 export default {
     components: {
@@ -93,9 +94,11 @@ export default {
     },
     data() {
         return {
+            PLURAL_NAME,
+            SINGULAR_NAME,
             labels: {
                 nome: 'Nome',
-                categoria_pai_id: 'Categoria Pai',
+                categoria_pai_id: `${SINGULAR_NAME} Pai`,
                 active: 'Situação',
             },
             registro: {
@@ -105,7 +108,7 @@ export default {
     },
     head() {
         return {
-            title: (this.isEdit ? 'Editando' : 'Criando') +  ' Categoria',
+            title: (this.isEdit ? 'Editando' : 'Criando') + ' '+ SINGULAR_NAME,
         }
     },
     computed: {
