@@ -18,14 +18,14 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('login', [\App\Http\Controllers\AuthController::class, 'login'])->name('login');
     Route::post('logout', [\App\Http\Controllers\AuthController::class, 'logout'])->name('auth.logout');
 
-    Route::group(['middleware' => ['auth:api']], function() {
+    Route::group(['middleware' => ['auth:sanctum']], function() {
 
         Route::post('refresh', [\App\Http\Controllers\AuthController::class, 'refresh'])->name('auth.refresh');
         Route::get('user', [\App\Http\Controllers\AuthController::class, 'user'])->name('auth.user');
     });
 });
 
-Route::group(['middleware' => ['auth:api']], function() {
+Route::group(['middleware' => ['auth:sanctum']], function() {
 
     Route::group(['prefix' => 'dashboard'], function () {
 
