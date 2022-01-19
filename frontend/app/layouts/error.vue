@@ -6,6 +6,7 @@
             <br>
 			<div>
 				<button type="button" class="btn btn-success px-3" @click="$router.push({name:'dashboard', force: true})">Voltar para a tela inicial</button>
+				<button type="button" class="btn btn-default ms-3" @click="$router.push({name:'logout', force: true})">Sair do sistema</button>
 			</div>
 		</div>
 	</div>

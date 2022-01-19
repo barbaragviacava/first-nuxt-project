@@ -19,7 +19,7 @@
 						<span v-if="$auth.isAuthenticated()">{{ $auth.getUser().name }}</span> <b class="caret"></b>
 					</template>
                     <NuxtLink :to="{ name: 'usuario-perfil' }" class="dropdown-item">Perfil</NuxtLink>
-					<a href="javascript:;" class="dropdown-item" @click="logout">Sair</a>
+                    <NuxtLink :to="{ name: 'logout' }" class="dropdown-item">Sair</NuxtLink>
 				</b-nav-item-dropdown>
 			</div>
 		</div>
@@ -29,19 +29,6 @@
 <script>
 export default {
     methods: {
-        logout() {
-            try {
-
-                this.$auth.logout()
-
-            } catch (errors) {
-
-                const errorResponse = this.$errorHandler.setAndParse(errors)
-
-                this.$nuxt.error({ statusCode: errorResponse.status, message: errorResponse.message })
-            }
-        },
-
         toggleSidebarMobile() {
             this.$store.commit('app/coreAdmin/showSidebarMobile')
         }
