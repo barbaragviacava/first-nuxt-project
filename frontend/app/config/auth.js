@@ -1,6 +1,6 @@
 export default {
 
-    numberDaysToExpires: 1,
+    numberDaysToExpires: 7,
 
     redirect: {
         logout: '/login',
