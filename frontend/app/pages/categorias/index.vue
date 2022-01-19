@@ -57,10 +57,7 @@
 
                 <BTable
                     ref="table"
-                    table-class="table-row-dashed align-middle fsuper"
                     responsive
-                    sort-icon-left
-                    no-local-sorting
                     :items="listar"
                     :fields="fields"
                     :filter="filtros"
@@ -112,11 +109,6 @@
                             v-model="meta.current_page"
                             :total-rows="meta.total"
                             :per-page="meta.per_page"
-                            align="fill"
-                            first-text="Primeira"
-                            prev-text="Anterior"
-                            next-text="Próxima"
-                            last-text="Última"
                         />
                     </ul>
                 </div>

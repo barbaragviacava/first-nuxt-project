@@ -97,16 +97,36 @@ export default {
     'cookie-universal-nuxt',
   ],
 
-  // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {
-    credentials: true,
-    proxy: true,
+  bootstrapVue: {
+    config: {
+      'BTable' : {
+        'tableClass': 'table-row-dashed align-middle fsuper',
+        'sortIconLeft': true,
+        'noLocalSorting': true,
+        'showEmpty': true,
+        'emptyText': 'Não há nenhum dado para ser exibido',
+        'emptyFilteredText': 'Não foi encontrado nenhum resultado para a busca realizada',
+      },
+      'BPagination': {
+        'align': 'fill',
+        'firstText': 'Primeira',
+        'prevText': 'Anterior',
+        'nextText': 'Próxima',
+        'lastText': 'Última',
+      }
+    }
   },
 
   proxy: {
     "/api/": {
         target: process.env.API_URL,
     },
+  },
+
+  // Axios module configuration: https://go.nuxtjs.dev/config-axios
+  axios: {
+    credentials: true,
+    proxy: true,
   },
 
   loading: {
