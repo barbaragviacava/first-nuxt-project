@@ -11,7 +11,7 @@ class DashboardRepository extends BaseRepository
      */
     public function contarProdutos()
     {
-        return Produto::count();
+        return Produto::ativado()->count();
     }
 
     /**
