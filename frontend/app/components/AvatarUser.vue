@@ -1,7 +1,7 @@
 <template>
     <div>
 
-        <img v-if="userImage != null" :src="userImage" class="user-avatar" :class="{ 'rounded-circle' : rounded }" :style="cssVars" :title="userName" />
+        <img v-if="userImage != ''" :src="userImage" class="user-avatar" :class="{ 'rounded-circle' : rounded }" :style="cssVars" :title="userName" />
         <AvatarUserInitialsName v-else :size="size" :rounded="rounded" />
 
     </div>
