@@ -3,3 +3,11 @@
         background-image: none !important;
     }
 }
+
+label.required:after {
+    content: "*";
+    font-size: inherit;
+    color: #f1416c;
+    padding-left: .25rem;
+    font-weight: 700;
+}

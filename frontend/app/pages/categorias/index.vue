@@ -23,9 +23,9 @@
                         </BInputGroup>
                     </BCol>
                     <BCol cols="6" md="4" class="mb-2">
-                        <BDropdown right no-flip variant="white" menu-class="w-300px" :disabled="isLoading">
+                        <BDropdown right no-flip :variant="filtros.active != '' ? 'outline-success' : 'white'" menu-class="w-300px" :disabled="isLoading">
                             <template #button-content>
-                                <fa icon="filter" class="me-2" /> Mais Filtros
+                                <BIcon :icon="filtros.active != '' ? 'funnel-fill' : 'funnel'" class="me-2" /> Mais Filtros
                             </template>
                             <BDropdownForm>
                                 <fieldset>
@@ -146,7 +146,9 @@ export default {
                 sortBy: 'nome',
                 sortDesc: false,
             },
-            filtros: {}
+            filtros: {
+                active: ''
+            }
         }
     },
     head: {
@@ -208,7 +210,7 @@ export default {
 
             this.$swal.fire({
                 title: '',
-                text: `Tem certeza que deseja remover ${singular_name} "${item.nome}"?`,
+                text: `Tem certeza que deseja remover a ${singular_name} "${item.nome}"?`,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: 'var(--bs-primary)',

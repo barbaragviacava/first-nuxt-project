@@ -14,12 +14,12 @@
         <BRow>
             <BCol md="2">
 
-                <BCard no-body class="mb-3">
+                <BCard no-body class="bg-dark mb-3">
                     <BCardBody style="margin: 0 auto">
-                        <AvatarUser size="150px" :rounded="false" />
+                        <AvatarUser class="img-thumbnail" size="150px" :rounded="false" />
                     </BCardBody>
 
-                    <BCardBody class="text-center">
+                    <BCardBody class="text-center bg-white">
                         <BaseButton type="button" class="btn btn-link" :loading="isLoading" @click="$refs.file.click()">Mudar Imagem</BaseButton>
 
                         <form ref="formFile">
