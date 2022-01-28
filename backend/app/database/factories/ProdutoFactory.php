@@ -40,7 +40,32 @@ class ProdutoFactory extends Factory
         return [
             'nome' => $this->faker->name(),
             'categoria_id' => $categoria_id,
+            'active' => $this->faker->boolean(),
             'created_by' => $user_id,
         ];
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function ativado()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'active' => true,
+            ];
+        });
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function inativado()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'active' => false,
+            ];
+        });
     }
 }
