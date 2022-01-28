@@ -48,4 +48,13 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
         Route::put('/toggleActive/{categoria}', [\App\Http\Controllers\CategoriaController::class, 'toggleActive'])->name('categorias.toggleActive');
     });
 
+    Route::resource('produtos', \App\Http\Controllers\ProdutoController::class)->only([
+        'index', 'store', 'show', 'update', 'destroy'
+    ]);
+
+    Route::group(['prefix' => 'produtos'], function () {
+
+        Route::put('/toggleActive/{produto}', [\App\Http\Controllers\ProdutoController::class, 'toggleActive'])->name('produtos.toggleActive');
+    });
+
 });

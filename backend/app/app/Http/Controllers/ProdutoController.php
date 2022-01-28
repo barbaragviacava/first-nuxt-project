@@ -2,84 +2,73 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProdutoRequest;
+use App\Http\Resources\ProdutoResource;
 use App\Models\Produto;
+use App\Repositories\ProdutoRepository;
 use Illuminate\Http\Request;
 
 class ProdutoController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param ProdutoRepository $repository
      */
-    public function index()
+    public function __construct(ProdutoRepository $repository)
     {
-        //
+        $this->repository = $repository;
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function index(Request $request)
     {
-        //
+        return $this->repository->paginate($request->all());
     }
 
     /**
-     * Display the specified resource.
-     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(ProdutoRequest $request)
+    {
+        return new ProdutoResource($this->repository->create($request->all())->load('categoria'));
+    }
+
+    /**
      * @param  \App\Models\Produto  $produto
      * @return \Illuminate\Http\Response
      */
     public function show(Produto $produto)
     {
-        //
+        return new ProdutoResource($produto->load('categoria'));
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Produto  $produto
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Produto $produto)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Produto  $produto
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Produto $produto)
     {
-        //
+        return new ProdutoResource($this->repository->update($produto, $request->all())->load('categoria'));
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
      * @param  \App\Models\Produto  $produto
      * @return \Illuminate\Http\Response
      */
     public function destroy(Produto $produto)
     {
-        //
+        $this->repository->delete($produto);
+    }
+
+    /**
+     * @param Produto $produto
+     */
+    public function toggleActive(Produto $produto)
+    {
+        $this->repository->toggleActive($produto);
     }
 }
