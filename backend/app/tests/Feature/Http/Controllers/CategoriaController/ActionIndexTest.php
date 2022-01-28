@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Categoria;
-use App\Repositories\BaseRepository;
 use App\Repositories\CategoriaRepository;
 
 use function Pest\Laravel\getJson;
@@ -13,7 +12,7 @@ it('deve retornar código 401 ao tentar consultar as categorias sem estar logado
 
 })->group('categorias', 'categorias.index');
 
-it('deve retornar código 401 ao tentar consultar as categorias quando logado', function () {
+it('deve retornar código 200 ao tentar consultar as categorias quando logado', function () {
 
     actingAsUserApi()
         ->getJson(route('categorias.index'))
@@ -109,6 +108,6 @@ it('deve retornar uma lista de 20 categorias (paginação)', function () {
         ->getJson(route('categorias.index'));
 
     expect($resposta['data'])
-        ->toHaveLength(BaseRepository::PAGINATE_DEFAULT);
+        ->toHaveLength(CategoriaRepository::PAGINATE_DEFAULT);
 
 })->group('categorias', 'categorias.index', 'categorias.index.paginacao');

@@ -50,7 +50,7 @@ it('deve atualizar a categoria com o mesmo nome de outra categoria inativa já e
 
 })->with('categoria_geralt')->group('categorias', 'categorias.update');
 
-it('deve atualizar relacionar a categoria à uma categoria pai com sucesso', function($categoria) {
+it('deve relacionar a categoria à uma categoria pai com sucesso', function($categoria) {
 
     $categoriaPai = Categoria::factory()->ativado()->create();
 

@@ -19,15 +19,15 @@ it('deve retornar uma estrutura json específica ao realizar login', function ()
     ])->assertJsonStructure([
         'access_token',
         'token_type',
-        'expires_in',
+        'user',
     ]);
 })->group('auth', 'login');
 
-it('deve retornar erro 401 quando NÃO informar o e-mail na tentativa de login', function() {
+it('deve retornar erro 422 quando NÃO informar o e-mail na tentativa de login', function() {
 
     postJson(route('login'), [
         'password' => 'password',
-    ])->assertStatus(401);
+    ])->assertStatus(422);
 })->group('auth', 'login.email');
 
 it('deve retornar erro 401 quando informar um e-mail NÃO existente na tentativa de login', function() {
@@ -38,11 +38,11 @@ it('deve retornar erro 401 quando informar um e-mail NÃO existente na tentativa
     ])->assertStatus(401);
 })->group('auth', 'login.email');
 
-it('deve retornar erro 401 quando NÃO informar a senha na tentativa de login', function() {
+it('deve retornar erro 422 quando NÃO informar a senha na tentativa de login', function() {
 
     postJson(route('login'), [
         'email' => $this->user->email,
-    ])->assertStatus(401);
+    ])->assertStatus(422);
 })->group('auth', 'login.senha');
 
 it('deve retornar erro 401 quando informar uma senha incorreta na tentativa de login', function() {

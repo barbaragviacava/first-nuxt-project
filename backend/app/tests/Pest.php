@@ -49,9 +49,5 @@ expect()->extend('toBeOne', function () {
 function actingAsUserApi()
 {
     // test()->user é setado no beforeEach logo acima
-    $token = auth('api')->login(test()->user);
-
-    test()->withHeaders(['Authorization' => 'Bearer ' . $token]);
-
-    return test();
+    return test()->actingAs(test()->user, 'sanctum');
 }

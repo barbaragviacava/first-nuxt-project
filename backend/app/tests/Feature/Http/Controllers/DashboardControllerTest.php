@@ -51,10 +51,12 @@ it('deve retornar código 200 ao buscar a quantidade de produtos com usuário lo
 
 it('deve confirmar que existem 25 produtos', function () {
 
-    $produtos = Produto::factory()->count(25)->create();
+    $produtosAtivos = Produto::factory()->count(25)->ativado()->create();
+
+    Produto::factory()->count(10)->inativado()->create();
 
     expect(actingAsUserApi()->getJson(route('dashboard.contarProdutos')))
         ->content()
-        ->toEqual(count($produtos));
+        ->toEqual(count($produtosAtivos));
 
 })->group('dashboard', 'dashboard.contarProdutos');
