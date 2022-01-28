@@ -98,6 +98,7 @@ export default {
   ],
 
   bootstrapVue: {
+    icons: true,
     config: {
       'BTable' : {
         'tableClass': 'table-row-dashed align-middle fsuper',
