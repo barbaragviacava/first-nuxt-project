@@ -37,7 +37,6 @@
                                                 input-id="categoria_id"
                                                 :class="classes"
                                                 :placeholder="labels.categoria_id"
-                                                :disabled="isLoading"
                                             />
                                             <InputErrorsList :errors="errors" />
                                         </div>

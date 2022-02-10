@@ -1,9 +1,11 @@
 <template>
     <VSelect
+        class="v-select-core-admin"
         :value="value"
         :placeholder="placeholder"
         :options="categorias"
         :disabled="disabled"
+        :multiple="multiple"
         :filterable="false"
         :reduce="reduce"
         :input-id="inputId"
@@ -62,6 +64,10 @@ export default {
             type: Boolean,
             default: false
         },
+        multiple: {
+            type: Boolean,
+            default: false
+        },
     },
     data() {
         return {
@@ -77,9 +83,6 @@ export default {
         await this.buscarCategorias()
     },
     computed: {
-        isLoading() {
-            return this.$coreLoading.isActive();
-        },
         hasNextPage() {
             return !this.meta.total || this.meta.limit < this.meta.total
         },
