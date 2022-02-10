@@ -56,7 +56,7 @@ export default function (ctx) {
 
                 if (text_code === 'UNAUTHENTICATED' && refreshToken) {
 
-                    if (error.config.hasOwnProperty('retryAttempts')) {
+                    if (error.config.retryAttempts !== undefined) {
 
                         return logout()
 
