@@ -1,59 +1,62 @@
 <template>
     <div>
 
-        <BBreadcrumb class="float-xl-end">
-            <BBreadcrumbItem :to="{ name: 'dashboard' }">Início</BBreadcrumbItem>
-            <BBreadcrumbItem active>{{ PLURAL_NAME }}</BBreadcrumbItem>
-        </BBreadcrumb>
-
         <BaseTitle>
             {{ PLURAL_NAME }}
             <small>Gerenciamento de {{ PLURAL_NAME }}</small>
         </BaseTitle>
 
+        <BBreadcrumb class="float-xl-end">
+            <BBreadcrumbItem :to="{ name: 'dashboard' }">Início</BBreadcrumbItem>
+            <BBreadcrumbItem active>{{ PLURAL_NAME }}</BBreadcrumbItem>
+        </BBreadcrumb>
+
+        <div class="mb-3">
+            <NuxtLink :to="{name: 'produtos-form-id'}" class="btn btn-purple px-4">
+                <fa icon="plus" class="me-2"/> Criar {{SINGULAR_NAME}}
+            </NuxtLink>
+        </div>
+
         <BasePanel>
 
             <template #body>
 
-                <BRow class="my-2">
-                    <BCol cols="12" md="3" class="me-2 mb-2">
-                        <BInputGroup>
-                            <BInputGroupText class="bg-primary text-light border-0"><fa icon="search" /></BInputGroupText>
-                            <input v-model.lazy="filtros.nome" type="text" class="form-control" placeholder="Pesquise pelo nome aqui" :readonly="isLoading">
-                        </BInputGroup>
-                    </BCol>
-                    <BCol cols="6" md="4" class="mb-2">
-                        <BDropdown right no-flip :variant="filtros.active != '' ? 'outline-success' : 'white'" menu-class="w-300px" :disabled="isLoading">
-                            <template #button-content>
-                                <BIcon :icon="filtros.active != '' ? 'funnel-fill' : 'funnel'" class="me-2" /> Mais Filtros
-                            </template>
-                            <BDropdownForm>
-                                <fieldset>
-                                    <div class="mb-3">
-                                        <label class="form-label">Situação</label>
-                                        <div class="form-check mb-2">
-                                            <input id="filtro-active-1" v-model="filtros.active" value="" class="form-check-input" type="radio" name="active" />
-                                            <label class="form-check-label" for="filtro-active-1">Todas</label>
-                                        </div>
-                                        <div class="form-check mb-2">
-                                            <input id="filtro-active-2" v-model="filtros.active" value="sim" class="form-check-input" type="radio" name="active" />
-                                            <label class="form-check-label" for="filtro-active-2">Apenas ativas</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input id="filtro-active-3" v-model="filtros.active" value="nao" class="form-check-input" type="radio" name="active" />
-                                            <label class="form-check-label" for="filtro-active-3">Apenas inativas</label>
-                                        </div>
-                                    </div>
-                                </fieldset>
-                            </BDropdownForm>
-                        </BDropdown>
-                    </BCol>
-                    <BCol class="text-end mb-2">
-                        <BaseButton class="btn-purple px-4" @click="criar">
-                            <fa icon="plus" class="me-2"/> Criar {{SINGULAR_NAME}}
-                        </BaseButton>
-                    </BCol>
-                </BRow>
+                <div class="rounded border p-3 mb-5">
+                    <div class="mb-3">
+                        <label class="d-flex align-items-center fs-5 fw-bold">
+                            <span class="required">Filtros</span>
+                        </label>
+                        <div class="fs-7 fw-bold text-muted">Utilize os filtros abaixo para encontrar o(s) {{SINGULAR_NAME | lower }}(s) com mais facilidade</div>
+                    </div>
+                    <BRow>
+                        <BCol cols="12" md="3" class="me-2 mb-2">
+                            <BInputGroup>
+                                <BInputGroupText class="bg-primary text-light border-0"><fa icon="search" /></BInputGroupText>
+                                <input v-model.lazy="filtros.nome" type="text" class="form-control" :placeholder="'Nome do '+ SINGULAR_NAME" autocomplete="off">
+                            </BInputGroup>
+                        </BCol>
+                        <BCol cols="12" md="3" class="mb-2">
+                            <SelectInfiniteCategoria
+                                v-model="filtros.categorias"
+                                class="d-inline"
+                                multiple
+                                :placeholder="CATEGORIA_NAME"
+                            />
+                        </BCol>
+                        <BCol class="mb-2">
+                            <div class="btn-group" role="group">
+                                <input id="filtro-active-1" v-model="filtros.active" value="" class="btn-check" type="radio" name="active" autocomplete="off" />
+                                <label class="btn btn-outline-purple" for="filtro-active-1">Mostrar todos</label>
+
+                                <input id="filtro-active-2" v-model="filtros.active" value="sim" class="btn-check" type="radio" name="active" />
+                                <label class="btn btn-outline-purple" for="filtro-active-2">Apenas ativos</label>
+
+                                <input id="filtro-active-3" v-model="filtros.active" value="nao" class="btn-check" type="radio" name="active" />
+                                <label class="btn btn-outline-purple" for="filtro-active-3">Apenas inativos</label>
+                            </div>
+                        </BCol>
+                    </BRow>
+                </div>
 
                 <div v-if="checkedItemsCount > 0" class="d-flex justify-content-end my-1">
                     <div class="me-2 pt-2">
@@ -119,12 +122,17 @@
                         </BaseBadge>
                     </template>
 
+                    <template #cell(nome)="row">
+                        <strong>{{row.item.nome}}</strong>
+                        <div class="fw-bold fs-6 text-gray-500">{{row.item.categoria.nome}}</div>
+                    </template>
+
                     <template #cell(actions)="row">
-                        <BDropdown right text="Ações" variant="default" no-caret boundary="window">
+                        <BDropdown right text="Ações" variant="success" no-caret boundary="window">
                             <template #button-content>
                                 Ações <fa icon="angle-down" class="ms-1" />
                             </template>
-                            <BDropdownItem @click="edit(row.item)">
+                            <BDropdownItem :to="{name: 'produtos-form-id', params: {id : row.item.id }}">
                                 Editar
                             </BDropdownItem>
                             <BDropdownItem @click="toggleActive(row.item)">
@@ -156,26 +164,21 @@
 </template>
 
 <script>
-import { PLURAL_NAME, SINGULAR_NAME } from '~/repositories/ProdutoRepository'
+import { SINGULAR_NAME as CATEGORIA_NAME } from '~/repositories/CategoriaRepository'
+import { PLURAL_NAME, SINGULAR_NAME as PRODUTO_NAME } from '~/repositories/ProdutoRepository'
 
 export default {
     data () {
         return {
+            CATEGORIA_NAME,
             PLURAL_NAME,
-            SINGULAR_NAME,
+            SINGULAR_NAME: PRODUTO_NAME,
             fields: [
                 { key: 'checkbox', label: '', class: 'checkbox-column' },
                 { key: 'nome', label: 'Nome', sortable: true },
                 {
-                    key: 'categoria_id',
-                    label: 'Categoria',
-                    formatter(value, key, item) {
-                        return item.categoria.nome
-                    }
-                },
-                {
                     key: 'active',
-                    label: 'Está ativa?',
+                    label: 'Está ativo?',
                     sortable: false
                 },
                 { key: 'actions', label: 'Ações', thClass: 'text-end', tdClass: 'text-end' }
@@ -214,11 +217,17 @@ export default {
     },
     methods: {
         async listar() {
+
+            const {categorias, ...outrosFiltros } = this.filtros
+            const idsCategorias = (categorias || []).map(categoria => categoria.id)
+
             const { data, meta } = await this.$repository.produtos.list({
                 sortBy: this.ordernation.sortBy,
                 sortDirection: (this.ordernation.sortDesc ? 'desc' : 'asc'),
                 page: this.meta.current_page,
-                ...this.filtros
+
+                categoria_id: idsCategorias,
+                ...outrosFiltros
             });
 
             this.meta = meta
@@ -247,7 +256,7 @@ export default {
 
         toggleActive(item) {
 
-            const singular_name = SINGULAR_NAME.toLowerCase()
+            const singular_name = PRODUTO_NAME.toLowerCase()
 
             this.$swal.fire({
                 title: 'Tem certeza?',
@@ -274,7 +283,7 @@ export default {
         },
 
         remove(item) {
-            const singular_name = SINGULAR_NAME.toLowerCase()
+            const singular_name = PRODUTO_NAME.toLowerCase()
 
             this.$swal.fire({
                 title: '',
@@ -298,11 +307,7 @@ export default {
                     }
                 }
             })
-        },
-
-        criar() {
-            this.$router.push({name: 'produtos-form-id'})
-        },
+        }
     }
 }
 </script>

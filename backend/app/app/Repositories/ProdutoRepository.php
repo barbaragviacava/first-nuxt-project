@@ -42,6 +42,10 @@ class ProdutoRepository extends BaseRepository
             ->applyFilterActive()
             ->applyFilterColumnLike('nome');
 
+        if (!empty($filters['categoria_id'])) {
+            $query->whereIn('categoria_id', (array)$filters['categoria_id']);
+        }
+
         return new ProdutoCollection(
             $query->paginate(!empty($filters['limit']) ? $filters['limit'] : $itemsPerPage)
         );
