@@ -8,6 +8,9 @@ use App\Models\Produto;
 use App\Repositories\ProdutoRepository;
 use Illuminate\Http\Request;
 
+/**
+ * @property ProdutoRepository $repository
+ */
 class ProdutoController extends Controller
 {
     /**
