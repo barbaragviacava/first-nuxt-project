@@ -21,36 +21,34 @@
 
             <template #body>
 
-                <form>
-                    <div class="rounded border p-3 mb-5">
-                        <div class="mb-3">
-                            <label class="d-flex align-items-center fs-5 fw-bold">
-                                <span class="required">Filtros</span>
-                            </label>
-                            <div class="fs-7 fw-bold text-muted">Utilize os filtros abaixo para encontrar o(s) {{SINGULAR_NAME | lower }}(s) com mais facilidade</div>
-                        </div>
-                        <BRow>
-                            <BCol cols="12" md="3" class="me-2 mb-2">
-                                <BInputGroup>
-                                    <BInputGroupText class="bg-primary text-light border-0"><fa icon="search" /></BInputGroupText>
-                                    <input v-model.lazy="filtros.nome" type="text" class="form-control" :placeholder="'Nome do '+ SINGULAR_NAME" autocomplete="off">
-                                </BInputGroup>
-                            </BCol>
-                            <BCol class="mb-2">
-                                <div class="btn-group" role="group">
-                                    <input id="filtro-active-1" v-model="filtros.active" value="" class="btn-check" type="radio" name="active" autocomplete="off" />
-                                    <label class="btn btn-outline-purple" for="filtro-active-1">Mostrar todos</label>
-
-                                    <input id="filtro-active-2" v-model="filtros.active" value="sim" class="btn-check" type="radio" name="active" />
-                                    <label class="btn btn-outline-purple" for="filtro-active-2">Apenas ativos</label>
-
-                                    <input id="filtro-active-3" v-model="filtros.active" value="nao" class="btn-check" type="radio" name="active" />
-                                    <label class="btn btn-outline-purple" for="filtro-active-3">Apenas inativos</label>
-                                </div>
-                            </BCol>
-                        </BRow>
+                <div class="rounded border p-3 mb-5">
+                    <div class="mb-3">
+                        <label class="d-flex align-items-center fs-5 fw-bold">
+                            <span class="required">Filtros</span>
+                        </label>
+                        <div class="fs-7 fw-bold text-muted">Utilize os filtros abaixo para encontrar o(s) {{SINGULAR_NAME | lower }}(s) com mais facilidade</div>
                     </div>
-                </form>
+                    <BRow>
+                        <BCol cols="12" md="3" class="me-2 mb-2">
+                            <BInputGroup>
+                                <BInputGroupText class="bg-primary text-light border-0"><fa icon="search" /></BInputGroupText>
+                                <input v-model.lazy="filtros.nome" type="text" class="form-control" :placeholder="'Nome do '+ SINGULAR_NAME" autocomplete="off">
+                            </BInputGroup>
+                        </BCol>
+                        <BCol class="mb-2">
+                            <div class="btn-group" role="group">
+                                <input id="filtro-active-1" v-model="filtros.active" value="" class="btn-check" type="radio" name="active" autocomplete="off" />
+                                <label class="btn btn-outline-purple" for="filtro-active-1">Mostrar todos</label>
+
+                                <input id="filtro-active-2" v-model="filtros.active" value="sim" class="btn-check" type="radio" name="active" />
+                                <label class="btn btn-outline-purple" for="filtro-active-2">Apenas ativos</label>
+
+                                <input id="filtro-active-3" v-model="filtros.active" value="nao" class="btn-check" type="radio" name="active" />
+                                <label class="btn btn-outline-purple" for="filtro-active-3">Apenas inativos</label>
+                            </div>
+                        </BCol>
+                    </BRow>
+                </div>
 
                 <BTable
                     ref="table"
