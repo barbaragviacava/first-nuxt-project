@@ -53,7 +53,7 @@ class ProdutoController extends Controller
      * @param  \App\Models\Produto  $produto
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Produto $produto)
+    public function update(ProdutoRequest $request, Produto $produto)
     {
         return new ProdutoResource($this->repository->update($produto, $request->all())->load('categoria'));
     }
