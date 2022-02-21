@@ -8,6 +8,20 @@ configure({
     }
 })
 
+extend('gt_zero', {
+    validate(value) {
+        return value > 0;
+    },
+    message: (fieldName, placeholders) => {
+        return {
+            fieldName,
+            placeholders,
+            messageWithField: `O valor do campo ${fieldName} precisa ser maior do que zero`,
+            message: 'O valor deste campo precisa ser maior do que zero'
+        };
+    }
+});
+
 extend('required', {
     ...required,
     message: (fieldName, placeholders) => {

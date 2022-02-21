@@ -29,20 +29,28 @@
                                     </ValidationProvider>
                                 </BCol>
                                 <BCol>
-                                    <ValidationProvider v-slot="{ errors, classes }" vid="categoria_id" :name="labels.categoria_id" rules="required">
+                                    <ValidationProvider v-slot="{ errors, classes }" vid="preco" :name="labels.preco" rules="required|gt_zero">
                                         <div class="mb-3">
-                                            <label class="form-label required" for="categoria_id" :class="{'vee-error' : $validationHelper.hasFieldError(errors)}">{{labels.categoria_id}}</label>
-                                            <SelectInfiniteCategoria
-                                                v-model="registro.categoria"
-                                                input-id="categoria_id"
-                                                :class="classes"
-                                                :placeholder="labels.categoria_id"
-                                            />
+                                            <label class="form-label required" for="preco" :class="{'vee-error' : $validationHelper.hasFieldError(errors)}">{{labels.preco}}</label>
+                                            <currency-input v-model="registro.preco" class="form-control" :placeholder="labels.preco" :readonly="isLoading" :class="classes" />
                                             <InputErrorsList :errors="errors" />
                                         </div>
                                     </ValidationProvider>
                                 </BCol>
                             </BRow>
+
+                            <ValidationProvider v-slot="{ errors, classes }" vid="categoria_id" :name="labels.categoria_id" rules="required">
+                                <div class="mb-3">
+                                    <label class="form-label required" for="categoria_id" :class="{'vee-error' : $validationHelper.hasFieldError(errors)}">{{labels.categoria_id}}</label>
+                                    <SelectInfiniteCategoria
+                                        v-model="registro.categoria"
+                                        input-id="categoria_id"
+                                        :class="classes"
+                                        :placeholder="labels.categoria_id"
+                                    />
+                                    <InputErrorsList :errors="errors" />
+                                </div>
+                            </ValidationProvider>
 
                             <ValidationProvider v-show="!isEdit" v-slot="{ errors }" :name="labels.active" rules="required">
                                 <label class="form-label col-form-label col-md-3">Criar a {{SINGULAR_NAME | lower}} como ativa?</label>
@@ -71,7 +79,8 @@
 
 <script>
 import { ValidationProvider, ValidationObserver } from "vee-validate";
-import { PLURAL_NAME, SINGULAR_NAME } from '~/repositories/ProdutoRepository'
+import { SINGULAR_NAME as CATEGORIA_NAME } from '~/repositories/CategoriaRepository'
+import { PLURAL_NAME, SINGULAR_NAME as PRODUTO_NAME } from '~/repositories/ProdutoRepository'
 
 export default {
     components: {
@@ -82,6 +91,9 @@ export default {
         try {
             if (params.id > 0) {
                 const registro = await $repository.produtos.show(params.id)
+
+                registro.preco = Number(registro.preco)
+
                 return { registro }
             }
         } catch(errorException) {
@@ -94,10 +106,11 @@ export default {
     data() {
         return {
             PLURAL_NAME,
-            SINGULAR_NAME,
+            SINGULAR_NAME: PRODUTO_NAME,
             labels: {
                 nome: 'Nome',
-                categoria_id: `Categoria`,
+                categoria_id: CATEGORIA_NAME,
+                preco: 'Preço',
                 active: 'Situação',
             },
             registro: {
@@ -107,7 +120,7 @@ export default {
     },
     head() {
         return {
-            title: (this.isEdit ? 'Editando' : 'Criando') + ' '+ SINGULAR_NAME,
+            title: (this.isEdit ? 'Editando' : 'Criando') + ' '+ PRODUTO_NAME,
         }
     },
     computed: {
@@ -131,13 +144,15 @@ export default {
         async store() {
             try {
 
-                this.registro.categoria_id = (this.registro.categoria != null ? this.registro.categoria.id : null)
+                const registro = {...this.registro}
 
-                const registroNovo = await this.$repository.produtos.create(this.registro);
+                registro.categoria_id = (this.registro.categoria != null ? this.registro.categoria.id : null)
+
+                const registroAdicionado = await this.$repository.produtos.create(registro);
 
                 this.$toast.success('Criada com sucesso! Você será redirecionado para a tela de edição.')
 
-                this.$router.push({ name: 'produtos-form-id', params: {id : registroNovo.id} })
+                this.$router.push({ name: 'produtos-form-id', params: {id : registroAdicionado.id} })
 
             } catch (error) {
                 const errorInfo = this.$errorHandler.setAndParse(error)

@@ -112,6 +112,10 @@
                         <input v-model="checkedItems" class="form-check-input" type="checkbox" :value="row.item.id">
                     </template>
 
+                    <template #cell(preco)="row">
+                        <span>{{ $n(row.item.preco, 'currency') }}</span>
+                    </template>
+
                     <template #cell(active)="row">
                         <BaseBadge
                             outline
@@ -176,6 +180,7 @@ export default {
             fields: [
                 { key: 'checkbox', label: '', class: 'checkbox-column' },
                 { key: 'nome', label: 'Nome', sortable: true },
+                { key: 'preco', label: 'Preço', class: 'text-right', sortable: true },
                 {
                     key: 'active',
                     label: 'Está ativo?',

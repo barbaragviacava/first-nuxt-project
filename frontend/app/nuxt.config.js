@@ -54,6 +54,7 @@ export default {
       { src: '~/plugins/repositoriesRegister' },
       { src: '~/plugins/filters' },
       { src: '~/plugins/vueSelect' },
+      { src: '~/plugins/vueCurrencyInput' },
 
       // client
       { src: '~/plugins/runClientEveryPage', mode: 'client' },
@@ -95,7 +96,25 @@ export default {
     "vue-toastification/nuxt",
     // https://www.npmjs.com/package/cookie-universal-nuxt
     'cookie-universal-nuxt',
+    // https://github.com/nuxt-community/i18n-module
+    '@nuxtjs/i18n',
   ],
+
+  i18n: {
+    locales: ['pt-BR'],
+    defaultLocale: 'pt-BR',
+    strategy: 'no_prefix',
+    vueI18n: {
+      numberFormats: {
+        'pt-BR': {
+          currency: {
+            style: 'currency',
+            currency: 'BRL'
+          }
+        }
+      }
+    }
+  },
 
   bootstrapVue: {
     icons: true,
