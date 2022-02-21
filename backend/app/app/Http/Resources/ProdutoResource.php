@@ -15,9 +15,10 @@ class ProdutoResource extends JsonResource
         return [
             'id' => $this->id,
             'nome' => $this->nome,
-            'active' => (bool)$this->active,
             'categoria_id' => $this->categoria_id,
+            'preco' => $this->preco,
             'categoria' => new CategoriaResource($this->whenLoaded('categoria')),
+            'active' => (bool)$this->active,
         ];
     }
 }

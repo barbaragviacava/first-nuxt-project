@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property string $nome
  * @property int $categoria_id
+ * @property float $preco
  * @property boolean $active
  * @property int $created_by
  * @property int $updated_by
@@ -25,6 +26,7 @@ class Produto extends Model
     protected $fillable = [
         'nome',
         'categoria_id',
+        'preco',
         'active',
         'created_by',
     ];
