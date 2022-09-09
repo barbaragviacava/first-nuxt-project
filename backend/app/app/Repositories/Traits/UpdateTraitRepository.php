@@ -8,21 +8,13 @@ use Illuminate\Database\Eloquent\Model;
  */
 trait UpdateTraitRepository
 {
-    /**
-     * @param int $id
-     * @param array $data
-     * @return Model
-     */
-    public function findAndUpdate($id, $data) {
+    public function findAndUpdate(int $id, array $data): Model
+    {
         return $this->update($this->model->findOrFail($id), $data);
     }
 
-    /**
-     * @param Model $model
-     * @param array $data
-     * @return Model
-     */
-    public function update(Model $model, $data) {
+    public function update(Model $model, array $data): Model
+    {
         $model->fill($data);
         $model->save();
         return $model;

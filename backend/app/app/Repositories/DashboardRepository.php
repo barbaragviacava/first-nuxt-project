@@ -1,24 +1,18 @@
 <?php
 namespace App\Repositories;
 
-use App\Models\Categoria;
-use App\Models\Produto;
+use App\Models\Category;
+use App\Models\Product;
 
 class DashboardRepository extends BaseRepository
 {
-    /**
-     * @return int
-     */
-    public function contarProdutos()
+    public function countProducts(): int
     {
-        return Produto::ativado()->count();
+        return Product::activated()->count();
     }
 
-    /**
-     * @return int
-     */
-    public function contarCategorias()
+    public function countCategories(): int
     {
-        return Categoria::ativado()->count();
+        return Category::activated()->count();
     }
 }

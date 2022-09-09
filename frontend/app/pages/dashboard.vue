@@ -11,8 +11,8 @@
                     color="bg-red"
                     icon="tags"
                     info-title="Categorias"
-                    :info-value="qtdCategoriasCadastradas"
-                    link-to-details="/categorias"
+                    :info-value="qtyStoredCategories"
+                    link-to-details="/categories"
                     :loading="isLoading"
                 />
             </div>
@@ -21,8 +21,8 @@
                     color="bg-blue"
                     icon="book"
                     info-title="Produtos"
-                    :info-value="qtdProdutosCadastrados"
-                    link-to-details="/produtos"
+                    :info-value="qtyStoredProducts"
+                    link-to-details="/products"
                     :loading="isLoading"
                 />
             </div>
@@ -34,16 +34,16 @@
 export default {
     data() {
         return {
-            qtdCategoriasCadastradas : 0,
-            qtdProdutosCadastrados: 0
+            qtyStoredCategories : 0,
+            qtyStoredProducts: 0
         }
     },
     async fetch() {
 
         try {
 
-            this.qtdCategoriasCadastradas = await this.$repository.dashboard.contarCategorias()
-            this.qtdProdutosCadastrados = await this.$repository.dashboard.contarProdutos()
+            this.qtyStoredCategories = await this.$repository.dashboard.countCategories()
+            this.qtyStoredProducts = await this.$repository.dashboard.countProducts()
 
         } catch (errors) {
 

@@ -4,7 +4,7 @@
 		<div id="header" class="app-header">
 
 			<div class="navbar-header">
-				<NuxtLink to="/" class="navbar-brand"><span class="navbar-logo"></span> <b>Core</b> Admin</NuxtLink>
+				<NuxtLink :to="{ name: 'dashboard' }" class="navbar-brand"><span class="navbar-logo"></span> <b>Core</b> Admin</NuxtLink>
                 <button type="button" class="navbar-mobile-toggler" @click="toggleSidebarMobile">
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
@@ -16,9 +16,9 @@
 				<b-nav-item-dropdown menu-class="dropdown-menu-end me-1" class="navbar-item navbar-user dropdown" toggle-class="navbar-link dropdown-toggle d-flex align-items-center" no-caret>
 					<template slot="button-content">
                         <AvatarUser size="30px" :rounded="true" class="me-2" />
-						<span v-if="$auth.isAuthenticated()">{{ $auth.getUser().name }}</span> <b class="caret"></b>
+						<span v-if="$auth.isAuthenticated()" class="header-user-name">{{ $auth.getUser().name }}</span> <b class="caret"></b>
 					</template>
-                    <NuxtLink :to="{ name: 'usuario-perfil' }" class="dropdown-item">Perfil</NuxtLink>
+                    <NuxtLink :to="{ name: 'user-profile' }" class="dropdown-item">Perfil</NuxtLink>
                     <NuxtLink :to="{ name: 'logout' }" class="dropdown-item">Sair</NuxtLink>
 				</b-nav-item-dropdown>
 			</div>

@@ -13,16 +13,16 @@ export default class DashboardRepository
     /**
      * @returns {Promise}
      */
-    contarCategorias()
+    countCategories()
     {
-        return this.axios.$get(`${resource}/contarCategorias`)
+        return this.axios.$get(`${resource}/countCategories`)
     }
 
     /**
      * @returns {Promise}
      */
-    contarProdutos()
+    countProducts()
     {
-        return this.axios.$get(`${resource}/contarProdutos`)
+        return this.axios.$get(`${resource}/countProducts`)
     }
 }

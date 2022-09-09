@@ -2,17 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
-
 Route::group(['prefix' => 'auth'], function () {
 
     Route::post('login', [\App\Http\Controllers\AuthController::class, 'login'])->name('login');
@@ -29,32 +18,35 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
 
     Route::group(['prefix' => 'dashboard'], function () {
 
-        Route::get('contarCategorias', [\App\Http\Controllers\DashboardController::class, 'contarCategorias'])->name('dashboard.contarCategorias');
-        Route::get('contarProdutos', [\App\Http\Controllers\DashboardController::class, 'contarProdutos'])->name('dashboard.contarProdutos');
+        Route::get('countCategories', [\App\Http\Controllers\DashboardController::class, 'countCategories'])->name('dashboard.countCategories');
+        Route::get('countProducts', [\App\Http\Controllers\DashboardController::class, 'countProducts'])->name('dashboard.countProducts');
     });
 
-    Route::group(['prefix' => 'usuarios'], function () {
+    Route::group(['prefix' => 'users'], function () {
 
-        Route::put('/', [\App\Http\Controllers\UsuarioController::class, 'update'])->name('usuarios.update');
-        Route::post('avatar', [\App\Http\Controllers\UsuarioController::class, 'avatar'])->name('usuarios.update.avatar');
+        Route::put('/', [\App\Http\Controllers\UserController::class, 'update'])->name('users.update');
+        Route::post('avatar', [\App\Http\Controllers\UserController::class, 'avatar'])->name('users.update.avatar');
     });
 
-    Route::resource('categorias', \App\Http\Controllers\CategoriaController::class)->only([
+    Route::resource('categories', \App\Http\Controllers\CategoryController::class)->only([
         'index', 'store', 'show', 'update', 'destroy'
     ]);
 
-    Route::group(['prefix' => 'categorias'], function () {
+    Route::group(['prefix' => 'categories'], function () {
 
-        Route::put('/toggleActive/{categoria}', [\App\Http\Controllers\CategoriaController::class, 'toggleActive'])->name('categorias.toggleActive');
+        Route::put('/toggleActive/{category}', [\App\Http\Controllers\CategoryController::class, 'toggleActive'])->name('categories.toggleActive');
     });
 
-    Route::resource('produtos', \App\Http\Controllers\ProdutoController::class)->only([
+    Route::resource('products', \App\Http\Controllers\ProductController::class)->only([
         'index', 'store', 'show', 'update', 'destroy'
     ]);
 
-    Route::group(['prefix' => 'produtos'], function () {
+    Route::group(['prefix' => 'products'], function () {
 
-        Route::put('/toggleActive/{produto}', [\App\Http\Controllers\ProdutoController::class, 'toggleActive'])->name('produtos.toggleActive');
+        Route::put('/toggleActive/{product}', [\App\Http\Controllers\ProductController::class, 'toggleActive'])->name('products.toggleActive');
+        Route::post('/activeMany', [\App\Http\Controllers\ProductController::class, 'activeMany'])->name('products.activeMany');
+        Route::post('/inactiveMany', [\App\Http\Controllers\ProductController::class, 'inactiveMany'])->name('products.inactiveMany');
+        Route::post('/destroyMany', [\App\Http\Controllers\ProductController::class, 'destroyMany'])->name('products.destroyMany');
     });
 
 });

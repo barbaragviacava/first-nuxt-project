@@ -1,62 +1,62 @@
 <?php
 
-use App\Models\Categoria;
-use App\Models\Produto;
+use App\Models\Category;
+use App\Models\Product;
 
 use function Pest\Laravel\getJson;
 
 it('deve retornar código 401 ao buscar a quantidade de categorias sem estar logado', function () {
 
-    getJson(route('dashboard.contarCategorias'))
+    getJson(route('dashboard.countCategories'))
         ->assertStatus(401);
 
-})->group('dashboard', 'dashboard.contarCategorias');
+})->group('dashboard', 'dashboard.countCategories');
 
 it('deve retornar código 200 ao buscar a quantidade de categorias com usuário logado', function () {
 
     actingAsUserApi()
-        ->getJson(route('dashboard.contarCategorias'))
+        ->getJson(route('dashboard.countCategories'))
         ->assertStatus(200);
 
-})->group('dashboard', 'dashboard.contarCategorias');
+})->group('dashboard', 'dashboard.countCategories');
 
 it('deve confirmar que existem 25 categorias ativas', function () {
 
-    $categoriasAtivas = Categoria::factory()->count(25)->ativado()->create();
+    $activeCategories = Category::factory()->count(25)->activated()->create();
 
-    Categoria::factory()->count(10)->inativado()->create();
+    Category::factory()->count(10)->inactivated()->create();
 
-    expect(actingAsUserApi()->getJson(route('dashboard.contarCategorias')))
+    expect(actingAsUserApi()->getJson(route('dashboard.countCategories')))
         ->content()
-        ->toEqual(count($categoriasAtivas));
+        ->toEqual(count($activeCategories));
 
-})->group('dashboard', 'dashboard.contarCategorias');
+})->group('dashboard', 'dashboard.countCategories');
 
 //--------------------//
 
 it('deve retornar código 401 ao buscar a quantidade de produtos sem estar logado', function () {
 
-    getJson(route('dashboard.contarProdutos'))
+    getJson(route('dashboard.countProducts'))
         ->assertStatus(401);
 
-})->group('dashboard', 'dashboard.contarProdutos');
+})->group('dashboard', 'dashboard.countProducts');
 
 it('deve retornar código 200 ao buscar a quantidade de produtos com usuário logado', function () {
 
     actingAsUserApi()
-        ->getJson(route('dashboard.contarProdutos'))
+        ->getJson(route('dashboard.countProducts'))
         ->assertStatus(200);
 
-})->group('dashboard', 'dashboard.contarProdutos');
+})->group('dashboard', 'dashboard.countProducts');
 
 it('deve confirmar que existem 25 produtos', function () {
 
-    $produtosAtivos = Produto::factory()->count(25)->ativado()->create();
+    $activeProducts = Product::factory()->count(25)->activated()->create();
 
-    Produto::factory()->count(10)->inativado()->create();
+    Product::factory()->count(10)->inactivated()->create();
 
-    expect(actingAsUserApi()->getJson(route('dashboard.contarProdutos')))
+    expect(actingAsUserApi()->getJson(route('dashboard.countProducts')))
         ->content()
-        ->toEqual(count($produtosAtivos));
+        ->toEqual(count($activeProducts));
 
-})->group('dashboard', 'dashboard.contarProdutos');
+})->group('dashboard', 'dashboard.countProducts');

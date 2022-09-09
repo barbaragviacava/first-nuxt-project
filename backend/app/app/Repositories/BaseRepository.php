@@ -5,21 +5,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class BaseRepository
 {
-    const PAGINATE_DEFAULT = 20;
+    const PAGINATION_DEFAULT = 20;
 
-    const FILTRO_ACTIVE_SIM = 'sim';
-    const FILTRO_ACTIVE_NAO = 'nao';
+    const FILTER_ACTIVE_YES = 'yes';
+    const FILTER_ACTIVE_NO = 'no';
 
     /**
      * @var Model
      */
     protected $model;
 
-    /**
-     * @param int $id
-     * @return Model
-     */
-    public function find($id) {
+    public function find(int $id): Model
+    {
         return $this->model->findOrFail($id);
     }
 
@@ -27,7 +24,9 @@ class BaseRepository
      * @param int $itemsPerPage
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function paginate($itemsPerPage = self::PAGINATE_DEFAULT) {
+    public function paginate(int $itemsPerPage = self::PAGINATION_DEFAULT)
+    {
         return $this->modal->paginate($itemsPerPage);
     }
+
 }

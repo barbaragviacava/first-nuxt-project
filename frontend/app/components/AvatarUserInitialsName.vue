@@ -36,7 +36,7 @@ export default {
         },
 
         userName() {
-            return this.$auth.getUser().name
+            return this.$auth.getUser().name.trim()
         },
 
         cssVars() {

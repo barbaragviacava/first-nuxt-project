@@ -9,8 +9,12 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function login(Request $request) {
-
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function login(Request $request): \Illuminate\Http\JsonResponse
+    {
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
@@ -36,7 +40,7 @@ class AuthController extends Controller
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function user(Request $request)
+    public function user(Request $request): \Illuminate\Http\JsonResponse
     {
         return response()->json(new UserResource($request->user()));
     }
@@ -44,7 +48,7 @@ class AuthController extends Controller
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function logout(Request $request)
+    public function logout(Request $request): void
     {
         if ($request->user() && $request->user()->currentAccessToken()) {
             $request->user()->currentAccessToken()->delete();

@@ -25,6 +25,9 @@ export default {
         },
         inputClasses: {
             required: false
+        },
+        maxlength: {
+            required: false
         }
     },
     computed: {

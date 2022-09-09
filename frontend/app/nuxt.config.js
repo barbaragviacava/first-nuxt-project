@@ -125,7 +125,7 @@ export default {
         'noLocalSorting': true,
         'showEmpty': true,
         'emptyText': 'Não há nenhum dado para ser exibido',
-        'emptyFilteredText': 'Não foi encontrado nenhum resultado para a busca realizada',
+        'emptyFilteredText': 'Nenhum registro foi encontrado',
       },
       'BPagination': {
         'align': 'fill',

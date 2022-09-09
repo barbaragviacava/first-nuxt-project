@@ -16,22 +16,15 @@ trait DefaultFiltersTraitRepository
      */
     private $query = null;
 
-    /**
-     * @param Builder $query
-     * @return DefaultFiltersTraitRepository
-     */
-    protected function setQueryAndFilters(Builder $query, $filters = []) {
+    protected function setQueryAndFilters(Builder $query, array $filters = []): self
+    {
         $this->query = $query;
         $this->filters = $filters;
 
         return $this;
     }
 
-    /**
-     * @param array $filters
-     * @return DefaultFiltersTraitRepository
-     */
-    protected function applySortBy()
+    protected function applySortBy(): self
     {
         if (!empty($this->filters['sortBy'])) {
 
@@ -44,27 +37,26 @@ trait DefaultFiltersTraitRepository
         return $this;
     }
 
-    /**
-     * @param array $filters
-     * @return DefaultFiltersTraitRepository
-     */
-    protected function applyFilterActive()
+    protected function applyFilterActive(): self
     {
         if (!empty($this->filters['active'])) {
-            $this->query->where('active', $this->filters['active'] == BaseRepository::FILTRO_ACTIVE_SIM);
+            $this->query->where('active', $this->filters['active'] == BaseRepository::FILTER_ACTIVE_YES);
         }
         return $this;
     }
 
-    /**
-     * @param string $column
-     * @param array $filters
-     * @return DefaultFiltersTraitRepository
-     */
-    protected function applyFilterColumnLike($column)
+    protected function applyFilterColumnLike(string $column): self
     {
         if (!empty($this->filters[$column])) {
             $this->query->where($column, 'like', '%'.$this->filters[$column].'%');
+        }
+        return $this;
+    }
+
+    protected function applyExceptIdFilter(): self
+    {
+        if (!empty($this->filters['except_id'])) {
+            $this->query->whereNotIn('id', (array)$this->filters['except_id']);
         }
         return $this;
     }

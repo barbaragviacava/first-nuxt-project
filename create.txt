@@ -31,7 +31,7 @@ docker-compose up --build
 -------------------------------------------
 
 Criando um teste novo:
-docker exec -it trum-back artisan pest:test CAMINHO/CLASSETest --unit
+docker exec -it trum-back artisan pest:test CAMINHO/CLASSETest
 
 Criando uma nova model com migration (m), factory (f), controller (c) e resource (r):
 docker exec -it trum-back artisan make:model -mfcr NOME_MODEL_SINGULAR

@@ -8,11 +8,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 trait CreateTraitRepository
 {
-    /**
-     * @param array $data
-     * @return boolean
-     */
-    public function create($data) {
+    public function create(array $data): bool
+    {
         $model = new $this->model;
         $model->fill($data);
         return $model->save();

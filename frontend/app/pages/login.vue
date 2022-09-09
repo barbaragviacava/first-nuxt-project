@@ -57,7 +57,7 @@ export default {
 
             try {
 
-                this.$auth.login(this.user.email, this.user.password)
+                await this.$auth.login(this.user.email, this.user.password)
 
             } catch (errors) {
 

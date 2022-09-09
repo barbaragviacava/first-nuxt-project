@@ -1,43 +1,41 @@
 <?php
 
-use function Pest\Laravel\putJson;
-
 it('deve retornar código 401 ao tentar atualizar os dados do usuário sem estar logado', function () {
 
-    putJson(route('usuarios.update'))
+    $this->putJson(route('users.update'))
         ->assertStatus(401);
 
-})->group('usuarios', 'usuarios.update');
+})->group('users', 'users.update');
 
 it('deve retornar código 200 ao tentar atualizar os dados do usuário quando logado', function () {
 
     actingAsUserApi()
-        ->putJson(route('usuarios.update'))
+        ->putJson(route('users.update'))
         ->assertStatus(200);
 
-})->group('usuarios', 'usuarios.update');
+})->group('users', 'users.update');
 
 it('deve ser capaz de mudar os dados do usuário', function () {
 
-    $novosDados = [
+    $newData = [
         'name' => 'Teste X',
         'email' => 'teste@t.com.br',
     ];
 
     actingAsUserApi()
-        ->putJson(route('usuarios.update'), $novosDados)
+        ->putJson(route('users.update'), $newData)
         ->assertStatus(200);
 
-})->group('usuarios', 'usuarios.update');
+})->group('users', 'users.update');
 
 it('deve retornar código 422 quando incluir um e-mail inválido para o usuário', function () {
 
-    $novosDados = [
+    $newData = [
         'email' => 'teste_invalido',
     ];
 
     actingAsUserApi()
-        ->putJson(route('usuarios.update'), $novosDados)
+        ->putJson(route('users.update'), $newData)
         ->assertStatus(422);
 
-})->group('usuarios', 'usuarios.update');
+})->group('users', 'users.update');

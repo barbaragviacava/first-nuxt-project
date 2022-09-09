@@ -17,13 +17,13 @@ class DashboardController extends Controller
         $this->repository = $repository;
     }
 
-    public function contarCategorias()
+    public function countCategories(): int
     {
-        return $this->repository->contarCategorias();
+        return $this->repository->countCategories();
     }
 
-    public function contarProdutos()
+    public function countProducts(): int
     {
-        return $this->repository->contarProdutos();
+        return $this->repository->countProducts();
     }
 }

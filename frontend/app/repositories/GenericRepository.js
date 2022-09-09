@@ -66,4 +66,37 @@ export default class GenericRepository
     {
         return this.axios.$put(`${proxy + '/' + this.resource}/toggleActive/${id}`)
     }
+
+    /**
+     * @param {Array} ids
+     * @returns {Promise}
+     */
+    activeMany(ids)
+    {
+        return this.axios.$post(`${proxy + '/' + this.resource}/activeMany`, {
+            ids
+        })
+    }
+
+    /**
+     * @param {Array} ids
+     * @returns {Promise}
+     */
+    inactiveMany(ids)
+    {
+        return this.axios.$post(`${proxy + '/' + this.resource}/inactiveMany`, {
+            ids
+        })
+    }
+
+    /**
+     * @param {Array} ids
+     * @returns {Promise}
+     */
+    deleteMany(ids)
+    {
+        return this.axios.$post(`${proxy + '/' + this.resource}/destroyMany`, {
+            ids
+        })
+    }
 }

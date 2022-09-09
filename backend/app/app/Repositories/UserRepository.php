@@ -11,21 +11,27 @@ use Illuminate\Support\Facades\Storage;
  */
 class UserRepository extends BaseRepository
 {
-    /**
-     * @param User $model
-     */
+    use UpdateTraitRepository;
+
     public function __construct(User $model)
     {
         $this->model = $model;
     }
 
-    use UpdateTraitRepository;
+    public function update(User $model, array $data): User
+    {
+        $model->fill($data);
+        $model->name = isset($data['name']) ? trim($data['name']) : $model->name;
+        $model->email = isset($data['email']) ? trim($data['email']) : $model->email;
+        $model->save();
+        return $model;
+    }
 
     /**
      * @param \Illuminate\Http\UploadedFile $avatarFile
      * @return string
      */
-    public function setAvatar($avatarFile)
+    public function setAvatar($avatarFile): string
     {
         $path = $this->createAvatarFile($avatarFile);
 
@@ -39,10 +45,7 @@ class UserRepository extends BaseRepository
         return asset($path);
     }
 
-    /**
-     * @param User $user
-     */
-    private function removeOldAvatar($user)
+    private function removeOldAvatar(User $user): void
     {
         if (empty($user->avatar)) {
             return;
@@ -54,7 +57,7 @@ class UserRepository extends BaseRepository
      * @param \Illuminate\Http\UploadedFile $avatarFile
      * @return string
      */
-    private function createAvatarFile($avatarFile)
+    private function createAvatarFile($avatarFile): string
     {
         return Storage::putFile('avatar', $avatarFile);
     }
