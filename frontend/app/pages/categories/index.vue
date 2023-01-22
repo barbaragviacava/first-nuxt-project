@@ -32,7 +32,7 @@
                         <BCol cols="12" md="3" class="me-2 mb-2">
                             <BInputGroup>
                                 <BInputGroupText class="bg-primary text-light border-0"><fa icon="search" /></BInputGroupText>
-                                <input v-model.lazy="filters.name" type="text" class="form-control" :placeholder="'Nome do '+ SINGULAR_NAME" autocomplete="off">
+                                <input v-model.lazy="filters.name" type="text" class="form-control" :placeholder="'Nome da '+ SINGULAR_NAME" autocomplete="off">
                             </BInputGroup>
                         </BCol>
                         <BCol class="mb-2">
@@ -75,6 +75,10 @@
                             <fa :icon="[row.item.active ? 'fas' : 'far', 'circle']" class="me-1" />
                             {{row.item.active | YesNo}}
                         </BaseBadge>
+                    </template>
+
+                    <template #cell(parent_category)="row">
+                        {{ row.item.parent_category_id > 0 ? row.item.parentCategory.name : null }}
                     </template>
 
                     <template #cell(actions)="row">
@@ -123,6 +127,7 @@ export default {
             SINGULAR_NAME,
             fields: [
                 { key: 'name', label: 'Nome', sortable: true },
+                { key: 'parent_category', label: 'Categoria Pai' },
                 {
                     key: 'active',
                     label: 'Está ativa?',

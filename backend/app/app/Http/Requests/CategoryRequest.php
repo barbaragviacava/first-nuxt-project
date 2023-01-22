@@ -23,6 +23,7 @@ class CategoryRequest extends FormRequest
         return [
             'name' => [
                 'required',
+                'max:35',
                 Rule::unique('categories')->where(function ($query) {
                     return $query->where('id', '!=', $this->id)
                         ->where('active', true);
@@ -35,6 +36,7 @@ class CategoryRequest extends FormRequest
     {
         return [
             'name.required' => 'Você precisa preencher o nome',
+            'name.max' => 'Nome maior do que o permitido',
             'name.unique' => 'Já existe uma categoria ativa com esse nome',
             'parent_category_id.exists' => 'A categoria pai selecionada não existe mais',
         ];

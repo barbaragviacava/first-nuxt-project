@@ -34,7 +34,8 @@ class CategoryRepository extends BaseRepository
         /**
          * @var \Illuminate\Database\Eloquent\Builder
          */
-        $query = $this->model::withoutGlobalScope(ActiveScope::class);
+        $query = $this->model::withoutGlobalScope(ActiveScope::class)
+            ->with('parentCategory');
 
         $this->setQueryAndFilters($query, $filters)
             ->applySortBy()

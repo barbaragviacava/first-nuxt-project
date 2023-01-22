@@ -104,7 +104,17 @@ export default {
 
         findCategories(search) {
             return this.$repository.categories.list({sortBy: 'name', name: search, except_id: this.except, limit: this.meta.limit}).then(({data, meta}) => {
-                this.categories = data
+
+                let categories = data
+                if (!this.multiple) {
+                    categories = [{
+                            id: '',
+                            name: 'Nenhuma',
+                        },
+                        ...data
+                    ];
+                }
+                this.categories = categories
                 this.meta.total = meta.total
             })
         },
