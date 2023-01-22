@@ -29,21 +29,6 @@ services:
             - "8080:80"
         networks:
             - core_admin
-    trum_php:
-        build:
-            dockerfile: ./docker/php/Dockerfile
-            context: .
-        container_name: trum-php
-        environment:
-            - DOCUMENT_ROOT_CONTEXT=public
-            - ALLOW_OVERRIDE_OPTION=All
-            - APPLICATION_ENV_OPTION=development
-        volumes:
-            - ./app:/var/www/html
-            - ./docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-            - ./docker/php/conf.d/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
-        expose:
-            - 9000
 networks:
     core_admin:
         driver: bridge

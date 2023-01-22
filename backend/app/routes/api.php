@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 
+Route::get('alive', function() {
+    return ['status' => 'ok'];
+});
+
 Route::group(['prefix' => 'auth'], function () {
 
     Route::post('login', [\App\Http\Controllers\AuthController::class, 'login'])->name('login');

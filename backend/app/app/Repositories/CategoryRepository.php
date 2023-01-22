@@ -36,10 +36,6 @@ class CategoryRepository extends BaseRepository
          */
         $query = $this->model::withoutGlobalScope(ActiveScope::class);
 
-        $t = $query->getGrammar()->getTablePrefix();
-
-        dd('oi');
-
         $this->setQueryAndFilters($query, $filters)
             ->applySortBy()
             ->applyFilterActive()
