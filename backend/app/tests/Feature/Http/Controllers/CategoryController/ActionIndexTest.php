@@ -98,6 +98,88 @@ it('não deve retornar nenhuma categoria se filtrado por apenas ativas e não ti
 
 })->group('categories', 'categories.index', 'categories.index.filters');
 
+it('deve retornar as categorias em ordem crescente', function () {
+
+    Category::factory()->create([
+        'name' => 'Banana'
+    ]);
+    Category::factory()->create([
+        'name' => 'Kiwi'
+    ]);
+    Category::factory()->create([
+        'name' => 'Maça'
+    ]);
+    Category::factory()->create([
+        'name' => 'Abacate'
+    ]);
+
+    $response = actingAsUserApi()
+        ->getJson(route('categories.index', ['sortBy' => 'name', 'sortDirection' => 'asc']));
+
+    expect($response['data'])
+        ->toHaveLength(4)
+        ->sequence(
+            fn ($category) => $category->toMatchArray(['name' => 'Abacate']),
+            fn ($category) => $category->toMatchArray(['name' => 'Banana']),
+            fn ($category) => $category->toMatchArray(['name' => 'Kiwi']),
+            fn ($category) => $category->toMatchArray(['name' => 'Maça']),
+        );
+
+})->group('categories', 'categories.index', 'categories.index.filters');
+
+it('deve retornar as categorias em ordem decrescente', function () {
+
+    Category::factory()->create([
+        'name' => 'Banana'
+    ]);
+    Category::factory()->create([
+        'name' => 'Kiwi'
+    ]);
+    Category::factory()->create([
+        'name' => 'Maça'
+    ]);
+    Category::factory()->create([
+        'name' => 'Abacate'
+    ]);
+
+    $response = actingAsUserApi()
+        ->getJson(route('categories.index', ['sortBy' => 'name', 'sortDirection' => 'desc']));
+
+    expect($response['data'])
+        ->toHaveLength(4)
+        ->sequence(
+            fn ($category) => $category->toMatchArray(['name' => 'Maça']),
+            fn ($category) => $category->toMatchArray(['name' => 'Kiwi']),
+            fn ($category) => $category->toMatchArray(['name' => 'Banana']),
+            fn ($category) => $category->toMatchArray(['name' => 'Abacate']),
+        );
+
+})->group('categories', 'categories.index', 'categories.index.filters');
+
+it('deve retornar as categorias, exceto, a "Banana"', function () {
+
+    $exceptId = Category::factory()->create([
+        'name' => 'Banana'
+    ]);
+    Category::factory()->create([
+        'name' => 'Kiwi'
+    ]);
+    Category::factory()->create([
+        'name' => 'Maça'
+    ]);
+
+    $response = actingAsUserApi()
+        ->getJson(route('categories.index', ['except_id' => $exceptId, 'sortBy' => 'name', 'sortDirection' => 'desc']));
+
+    expect($response['data'])
+        ->toHaveLength(2)
+        ->sequence(
+            fn ($category) => $category->toMatchArray(['name' => 'Maça']),
+            fn ($category) => $category->toMatchArray(['name' => 'Kiwi']),
+        );
+
+})->group('categories', 'categories.index', 'categories.index.filters');
+
 it('deve retornar uma lista de 20 categorias (paginação)', function () {
 
     Category::factory()->count(30)->activated()->create();

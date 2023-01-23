@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Category;
 use App\Models\Product;
 use App\Repositories\ProductRepository;
 
@@ -69,7 +70,7 @@ it('deve retornar uma lista de 5 produtos quando filtrado por apenas inativos', 
 
 })->group('products', 'products.index', 'products.index.filters');
 
-it('deve retornar um usuário chamado "Geralt de Rivia" quando filtrado pelo nome "de r"', function () {
+it('deve retornar um produto chamado "Geralt de Rivia" quando filtrado pelo nome "de r"', function () {
 
     $newProduct = [
         'name' => 'Geralt de Rivia',
@@ -109,3 +110,23 @@ it('deve retornar uma lista de 20 produtos (paginação)', function () {
         ->toHaveLength(ProductRepository::PAGINATION_DEFAULT);
 
 })->group('products', 'products.index', 'products.index.pagination');
+
+it('deve retornar um produto chamado "Geralt de Rivia" quando filtrado pela categoria "Witcher"', function () {
+
+    Product::factory()->count(5)->activated()->create();
+
+    $witcherCategoryId = Category::factory()->create(['name' => 'Witcher'])->id;
+    $newProduct = [
+        'name' => 'Geralt de Rivia',
+        'category_id' => $witcherCategoryId
+    ];
+    Product::factory()->create($newProduct);
+
+    $response = actingAsUserApi()
+        ->getJson(route('products.index', ['category_id' => $witcherCategoryId]));
+
+    expect($response['data'])
+        ->toHaveLength(1)
+        ->each(fn ($product) => $product->toMatchArray($newProduct));
+
+})->group('products', 'products.index', 'products.index.filters');

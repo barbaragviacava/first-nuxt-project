@@ -37,7 +37,7 @@ class UserRepository extends BaseRepository
 
         $user = $this->find(Auth::user()->id);
 
-        $this->removeOldAvatar($user);
+        self::removeOldAvatar($user);
 
         $user->avatar = $path;
         $user->save();
@@ -45,7 +45,7 @@ class UserRepository extends BaseRepository
         return asset($path);
     }
 
-    private function removeOldAvatar(User $user): void
+    public static function removeOldAvatar(User $user): void
     {
         if (empty($user->avatar)) {
             return;

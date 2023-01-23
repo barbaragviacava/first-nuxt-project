@@ -37,7 +37,7 @@ it('deve atualizar a categoria com nome "Teste Categoria"', function($category) 
 it('deve atualizar a categoria com o mesmo nome de outra categoria inativa já existente', function($category) {
 
     $updateData = [
-        'name' => 'Pode nome igual? Não se estiver ativa',
+        'name' => 'Pode nome igual?',
     ];
 
     Category::factory()->inactivated()->create($updateData);

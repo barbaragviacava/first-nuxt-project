@@ -10,7 +10,6 @@ use App\Repositories\Traits\UpdateTraitRepository;
 use App\Scopes\ActiveScope;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 /**
  * @property Category $model
@@ -68,12 +67,7 @@ class CategoryRepository extends BaseRepository
             throw new DeleteException('A categoria não pode ser excluida, pois existem produtos vinculadas à ela.');
         }
 
-        try {
-            return $model->delete();
-        } catch (\Exception $error) {
-            Log::error($error->getMessage());
-            throw new DeleteException('Não foi possível remover a categoria. Contate o nosso suporte.', $error->getCode(), $error);
-        }
+        return $model->delete();
     }
 
     public function doIhaveChildren(int $id): bool

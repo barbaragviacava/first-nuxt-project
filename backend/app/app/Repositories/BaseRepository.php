@@ -26,7 +26,7 @@ class BaseRepository
      */
     public function paginate(int $itemsPerPage = self::PAGINATION_DEFAULT)
     {
-        return $this->modal->paginate($itemsPerPage);
+        return $this->model->paginate($itemsPerPage);
     }
 
 }

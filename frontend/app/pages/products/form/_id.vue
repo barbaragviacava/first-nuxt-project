@@ -9,7 +9,7 @@
 
         <BaseTitle>
             {{PLURAL_NAME}}
-            <small>{{isEdit ? 'Editando' : 'Criando uma nova'}} {{SINGULAR_NAME | lower}}</small>
+            <small>{{isEdit ? 'Editando' : 'Criando um novo'}} {{SINGULAR_NAME | lower}}</small>
         </BaseTitle>
 
         <BasePanel>
@@ -53,8 +53,8 @@
                             </ValidationProvider>
 
                             <ValidationProvider v-show="!isEdit" v-slot="{ errors }" :name="labels.active" rules="required">
-                                <label class="form-label col-form-label col-md-3">Criar a {{SINGULAR_NAME | lower}} como ativa?</label>
-                                <small class="text-muted d-block mb-2">Você pode alterar a situação da {{SINGULAR_NAME | lower}} a qualquer momento</small>
+                                <label class="form-label col-form-label col-md-3">Criar o {{SINGULAR_NAME | lower}} como ativo?</label>
+                                <small class="text-muted d-block mb-2">Você pode alterar a situação do {{SINGULAR_NAME | lower}} a qualquer momento</small>
                                 <div class="form-check form-switch">
                                     <input id="active" v-model="registry.active" class="form-check-input" type="checkbox" />
                                     <label class="form-check-label" for="active">Sim</label>
@@ -150,7 +150,7 @@ export default {
 
                 const addedRegistry = await this.$repository.products.create(registry);
 
-                this.$toast.success('Criada com sucesso! Você será redirecionado para a tela de edição.')
+                this.$toast.success('Criado com sucesso! Você será redirecionado para a tela de edição.')
 
                 this.$router.push({ name: 'products-form-id', params: {id : addedRegistry.id} })
 
@@ -172,7 +172,7 @@ export default {
 
                 const updatedRegistry = await this.$repository.products.update(this.registry.id, this.registry);
 
-                this.$toast.success('Atualizada com sucesso!')
+                this.$toast.success('Atualizado com sucesso!')
 
                 this.registry = updatedRegistry
 
