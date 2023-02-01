@@ -1,14 +1,17 @@
 import Vue from 'vue'
 
-Vue.filter('YesNo', function (value) {
-    if (value) {
-        return 'Sim'
-    }
-    return 'Não'
-})
+export default ({ app }) => {
 
-Vue.filter('lower', function (value) {
+  Vue.filter('YesNo', function (value) {
+    if (value) {
+        return app.i18n.t('plugins.filters.yes')
+    }
+    return app.i18n.t('plugins.filters.no')
+  })
+
+  Vue.filter('lower', function (value) {
     if (!value) return ''
     value = value.toString()
     return value.toLowerCase()
-})
+  })
+}

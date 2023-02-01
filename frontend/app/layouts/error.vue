@@ -3,10 +3,10 @@
 		<div class="error-code">{{errorCode}}</div>
 		<div class="error-content">
 			<div class="error-message">{{errorMessage}}</div>
-            <br>
+      <br>
 			<div>
-				<button type="button" class="btn btn-success px-3" @click="$router.push({name:'dashboard', force: true})">Voltar para a tela inicial</button>
-				<button type="button" class="btn btn-default ms-3" @click="$router.push({name:'logout', force: true})">Sair do sistema</button>
+        <button type="button" class="btn btn-success px-3" @click="$router.push(localePath({name:'dashboard', force: true}))">{{ $t('layouts.error.backpage') }}</button>
+        <button type="button" class="btn btn-default ms-3" @click="$router.push(localePath({name:'logout', force: true}))">{{ $t('layouts.error.logout') }}</button>
 			</div>
 		</div>
 	</div>
@@ -14,32 +14,32 @@
 
 <script>
 export default {
-    layout: 'base-app',
-    props: ['error'],
-    computed: {
+  layout: 'base-app',
+  props: ['error'],
+  computed: {
 
-        errorMessage() {
+    errorMessage() {
 
-            const defaultMessages = {
-                404: 'Não conseguimos encontrar a funcionalidade que você tentou acessar. Por favor, tente novamente ou entre em contato com a nossa equipe.',
-                500: 'Ixi! Você descobriu um problema que a nossa equipe precisa investigar. Por favor, informe o nosso suporte sobre o ocorrido.',
-            }
+      const defaultMessages = {
+        404: this.$t('layouts.error.errorMessage.404'),
+        500: this.$t('layouts.error.errorMessage.500'),
+      }
 
-            if (!defaultMessages[this.error.statusCode]) {
-                return defaultMessages[500]
-            }
+      if (!defaultMessages[this.error.statusCode]) {
+        return defaultMessages[500]
+      }
 
-            let isDev = false
-            if (this.$store && this.$store.app && this.$store.app.context) {
-                isDev = this.$store.app.context.isDev
-            }
+      let isDev = false
+      if (this.$store && this.$store.app && this.$store.app.context) {
+        isDev = this.$store.app.context.isDev
+      }
 
-            return isDev ? this.error.message : defaultMessages[this.error.statusCode];
-        },
+      return isDev ? this.error.message : defaultMessages[this.error.statusCode];
+    },
 
-        errorCode() {
-            return this.error.statusCode || 500;
-        }
+    errorCode() {
+      return this.error.statusCode || 500;
     }
+  }
 }
 </script>

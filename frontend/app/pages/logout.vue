@@ -1,28 +1,28 @@
 <template>
 
-    <div class="d-flex align-items-center justify-content-center vh-100">
-        <span>
-            <LoaderDefault :size="80" color="gray" class="ms-4" />
-            <p class="lead mt-3">Saindo, aguarde...</p>
-        </span>
-    </div>
+  <div class="d-flex align-items-center justify-content-center vh-100">
+    <span class="text-center">
+      <LoaderDefault :size="80" color="gray" />
+      <p class="lead mt-3">{{ $t('pages.logout.leaving') }}...</p>
+    </span>
+  </div>
 
 </template>
 
 <script>
 export default {
-    layout: 'base-app',
-    async fetch() {
-        try {
+  layout: 'base-app',
+  async fetch() {
+    try {
 
-            await this.$auth.logout()
+      await this.$auth.logout()
 
-        } catch (errors) {
+    } catch (errors) {
 
-            const errorResponse = this.$errorHandler.setAndParse(errors)
+      const errorResponse = this.$errorHandler.setAndParse(errors)
 
-            this.$nuxt.error({ statusCode: errorResponse.status, message: errorResponse.message })
-        }
+      this.$nuxt.error({ statusCode: errorResponse.status, message: errorResponse.message })
     }
+  }
 }
 </script>

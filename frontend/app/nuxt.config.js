@@ -37,28 +37,30 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+    '~/node_modules/flag-icon-css/css/flag-icon.css',
     '~/assets/vue.scss',
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-      { src: '~/core-admin/plugins/vue-custom-scrollbar' },
-      { src: '~/core-admin/plugins/loading/index' },
-      { src: '~/plugins/persistedState' },
-      { src: '~/plugins/auth/index' },
-      { src: '~/plugins/error-handler/index' },
-      { src: '~/plugins/flash-message/index' },
-      { src: '~/plugins/axios' },
-      { src: '~/plugins/veeValidate' },
-      { src: '~/plugins/validation-helper/index' },
-      { src: '~/plugins/repositoriesRegister' },
-      { src: '~/plugins/filters' },
-      { src: '~/plugins/vueSelect' },
-      { src: '~/plugins/vueCurrencyInput' },
+    { src: '~/core-admin/plugins/vue-custom-scrollbar' },
+    { src: '~/core-admin/plugins/loading/index' },
+    { src: '~/plugins/persistedState' },
+    { src: '~/plugins/auth/index' },
+    { src: '~/plugins/error-handler/index' },
+    { src: '~/plugins/flash-message/index' },
+    { src: '~/plugins/i18n/index' },
+    { src: '~/plugins/axios' },
+    { src: '~/plugins/veeValidate' },
+    { src: '~/plugins/validation-helper/index' },
+    { src: '~/plugins/repositoriesRegister' },
+    { src: '~/plugins/filters' },
+    { src: '~/plugins/vueSelect' },
+    { src: '~/plugins/vueCurrencyInput' },
 
-      // client
-      { src: '~/plugins/runClientEveryPage', mode: 'client' },
-      { src: '~/plugins/vueAdvancedCropper', mode: 'client' },
+    // client
+    { src: '~/plugins/runClientEveryPage', mode: 'client' },
+    { src: '~/plugins/vueAdvancedCropper', mode: 'client' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -101,15 +103,39 @@ export default {
   ],
 
   i18n: {
-    locales: ['pt-BR'],
-    defaultLocale: 'pt-BR',
-    strategy: 'no_prefix',
+    locales: [
+      {
+        code: 'en-us',
+        icon: 'us',
+        name: 'English',
+        currency: 'USD',
+        file: 'en-us.js'
+      },
+      {
+        code: 'pt-br',
+        icon: 'br',
+        name: 'Português (Brasil)',
+        currency: 'BRL',
+        file: 'pt-br.js'
+      }
+    ],
+    lazy: true,
+    langDir: 'lang/',
+    defaultLocale: 'pt-br',
+    strategy: 'prefix',
     vueI18n: {
+      fallbackLocale: 'pt-br',
       numberFormats: {
-        'pt-BR': {
+        'pt-br': {
           currency: {
             style: 'currency',
             currency: 'BRL'
+          }
+        },
+        'en-us': {
+          currency: {
+            style: 'currency',
+            currency: 'USD'
           }
         }
       }
@@ -124,15 +150,9 @@ export default {
         'sortIconLeft': true,
         'noLocalSorting': true,
         'showEmpty': true,
-        'emptyText': 'Não há nenhum dado para ser exibido',
-        'emptyFilteredText': 'Nenhum registro foi encontrado',
       },
       'BPagination': {
         'align': 'fill',
-        'firstText': 'Primeira',
-        'prevText': 'Anterior',
-        'nextText': 'Próxima',
-        'lastText': 'Última',
       }
     }
   },

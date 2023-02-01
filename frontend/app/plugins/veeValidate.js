@@ -1,47 +1,50 @@
 import { extend, configure } from 'vee-validate';
 import { required, email } from 'vee-validate/dist/rules';
 
-configure({
-    classes: {
-        valid: 'parsley-success',
-        invalid: 'parsley-error',
-    }
-})
+export default function ({i18n}) {
 
-extend('gt_zero', {
+  configure({
+    classes: {
+      valid: 'parsley-success',
+      invalid: 'parsley-error',
+    }
+  })
+
+  extend('gt_zero', {
     validate(value) {
-        return value > 0;
+      return value > 0;
     },
     message: (fieldName, placeholders) => {
-        return {
-            fieldName,
-            placeholders,
-            messageWithField: `O valor do campo ${fieldName} precisa ser maior do que zero`,
-            message: 'O valor deste campo precisa ser maior do que zero'
-        };
+      return {
+        fieldName,
+        placeholders,
+        messageWithField: i18n.t('plugins.veeValidate.gtZero.messageWithField', {field_name: fieldName}),
+        message: i18n.t('plugins.veeValidate.gtZero.message')
+      };
     }
-});
+  });
 
-extend('required', {
+  extend('required', {
     ...required,
     message: (fieldName, placeholders) => {
-        return {
-            fieldName,
-            placeholders,
-            messageWithField: `O campo ${fieldName} é obrigatório`,
-            message: 'Este campo é obrigatório'
-        };
+      return {
+        fieldName,
+        placeholders,
+        messageWithField: i18n.t('plugins.veeValidate.required.messageWithField', {field_name: fieldName}),
+        message: i18n.t('plugins.veeValidate.required.message')
+      };
     }
-});
+  });
 
-extend('email', {
+  extend('email', {
     ...email,
     message: (fieldName, placeholders) => {
-        return {
-            fieldName,
-            placeholders,
-            messageWithField: `O campo ${fieldName} precisa conter um e-mail válido`,
-            message: 'O E-mail informado é inválido.'
-        };
+      return {
+        fieldName,
+        placeholders,
+        messageWithField: i18n.t('plugins.veeValidate.email.messageWithField', {field_name: fieldName}),
+        message: i18n.t('plugins.veeValidate.email.message')
+      };
     }
-});
+  });
+}

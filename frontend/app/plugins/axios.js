@@ -3,85 +3,85 @@ import { loginUrl, logoutUrl, refreshUrl } from "~/repositories/AuthRepository"
 
 export default function (ctx) {
 
-    const { $axios, store, $coreLoading, $errorHandler, $auth } = ctx
+  const { $axios, store, $coreLoading, $errorHandler, $auth, i18n } = ctx
 
-    const ignoredPaths = [
-        loginUrl,
-        logoutUrl,
-        refreshUrl
-    ]
+  const ignoredPaths = [
+    loginUrl,
+    logoutUrl,
+    refreshUrl
+  ]
 
-    function logout() {
-        ctx.$flashMessage.append('Sessão expirada.', TYPE.WARNING)
+  function logout() {
+    ctx.$flashMessage.append(i18n.t('plugins.axios.sessionExpiredAlert'), TYPE.WARNING)
 
-        return $auth.logout()
+    return $auth.logout()
+  }
+
+  $axios.onRequest((config) => {
+    store.commit('axios/pendingRequestCounter/increase')
+
+    $coreLoading.start()
+
+    if ($auth.isAuthenticated()) {
+      config.headers.Authorization = 'Bearer ' + store.state.auth.accessToken
     }
 
-    $axios.onRequest((config) => {
-        store.commit('axios/pendingRequestCounter/increase')
+    return config
+  })
+  $axios.onResponse(() => {
+    store.commit('axios/pendingRequestCounter/decrease')
 
-        $coreLoading.start()
+    if (store.state.axios.pendingRequestCounter.counter == 0) {
+      $coreLoading.stop()
+    }
+  })
+  $axios.onError((error) => {
+    store.commit('axios/pendingRequestCounter/decrease')
 
-        if ($auth.isAuthenticated()) {
-            config.headers.Authorization = 'Bearer ' + store.state.auth.accessToken
-        }
+    if (store.state.axios.pendingRequestCounter.counter == 0) {
+      $coreLoading.stop()
+    }
 
-        return config
-    })
-    $axios.onResponse(() => {
-        store.commit('axios/pendingRequestCounter/decrease')
+    return new Promise((resolve, reject) => {
 
-        if (store.state.axios.pendingRequestCounter.counter == 0) {
-            $coreLoading.stop()
-        }
-    })
-    $axios.onError((error) => {
-        store.commit('axios/pendingRequestCounter/decrease')
+      const isIgnored = ignoredPaths.some(path => error.config.url.includes(path))
 
-        if (store.state.axios.pendingRequestCounter.counter == 0) {
-            $coreLoading.stop()
-        }
+      const errorResponse = $errorHandler.setAndParse(error)
 
-        return new Promise((resolve, reject) => {
+      if (errorResponse.status === 401 && !isIgnored) {
 
-            const isIgnored = ignoredPaths.some(path => error.config.url.includes(path))
+        const { data: { text_code } = { text_code: null } } = error.response || {}
 
-            const errorResponse = $errorHandler.setAndParse(error)
+        const refreshToken = store.state.auth.refreshToken
 
-            if (errorResponse.status === 401 && !isIgnored) {
+        if (text_code === 'UNAUTHENTICATED' && refreshToken) {
 
-                const { data: { text_code } = { text_code: null } } = error.response || {}
+          if (error.config.retryAttempts !== undefined) {
 
-                const refreshToken = store.state.auth.refreshToken
+            return logout()
 
-                if (text_code === 'UNAUTHENTICATED' && refreshToken) {
+          } else {
 
-                    if (error.config.retryAttempts !== undefined) {
+            const config = { retryAttempts: 1, ...error.config }
 
-                        return logout()
+            try {
 
-                    } else {
+              $auth.refresh()
 
-                        const config = { retryAttempts: 1, ...error.config }
+              return resolve($axios(config))
 
-                        try {
+            } catch (e) {
 
-                            $auth.refresh()
-
-                            return resolve($axios(config))
-
-                        } catch (e) {
-
-                            return logout()
-                        }
-                    }
-                } else if (text_code === 'UNAUTHENTICATED') {
-
-                    return logout()
-                }
+              return logout()
             }
+          }
+        } else if (text_code === 'UNAUTHENTICATED') {
 
-            return reject(error)
-        })
+          return logout()
+        }
+      }
+
+      return reject(error)
     })
+  })
 }

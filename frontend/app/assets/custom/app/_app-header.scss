@@ -9,11 +9,15 @@
 			}
 		}
 	}
-    & span.header-user-name {
-        max-width: 250px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
+  & span.header-user-name {
+    max-width: 250px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  & select.form-select {
+    max-width: 250px;
+    width: 100%;
+  }
 	&.app-header-inverse {
 		& .navbar-nav {
 			& > .navbar-item {

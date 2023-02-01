@@ -1,7 +1,7 @@
 const menu = [
-    { path: '/dashboard', icon: ['fas', 'chart-bar'], title: 'Dashboard' },
-    { path: '/categories', icon: ['fas', 'tags'], title: 'Categorias' },
-    { path: '/products', icon: ['fas', 'book'], title: 'Produtos' },
+  { name: 'dashboard', icon: ['fas', 'chart-bar'], title: 'config.menu.dashboard' },
+  { name: 'categories', icon: ['fas', 'tags'], title: 'config.menu.categories' },
+  { name: 'products', icon: ['fas', 'book'], title: 'config.menu.products' },
 ]
 
 export default menu;

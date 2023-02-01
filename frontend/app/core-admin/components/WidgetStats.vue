@@ -7,7 +7,7 @@
             <LoaderDefault v-else color="white" :size="30" />
         </div>
         <div v-if="linkToDetails" class="stats-link">
-            <NuxtLink :to="linkToDetails">Ver Detalhes <fa icon="arrow-alt-circle-right"></fa></NuxtLink>
+            <NuxtLink :to="linkToDetails">{{ $t('coreAdmin.components.widgetStats.seeDetails') }} <fa icon="arrow-alt-circle-right"></fa></NuxtLink>
         </div>
     </div>
 </template>

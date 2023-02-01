@@ -1,24 +1,24 @@
 <template>
     <!-- begin sidebar nav -->
     <div v-if="menus" class="menu">
-        <div class="menu-header"></div>
-        <template v-for="menu in menus">
-            <TheSidebarNavList
-                ref="sidebarNavList"
-                :key="menu.path"
-                :menu="menu"
-                :scroll-top="scrollTop"
-                :status="menu.status"
-                @collapse-other="handleCollapseOther(menu)"
-                @show-float-submenu="handleShowFloatSubmenu"
-                @hide-float-submenu="handleHideFloatSubmenu"></TheSidebarNavList>
-        </template>
+      <div class="menu-header"></div>
+      <template v-for="menu in menus">
+        <TheSidebarNavList
+            ref="sidebarNavList"
+            :key="menu.name"
+            :menu="menu"
+            :scroll-top="scrollTop"
+            :status="menu.status"
+            @collapse-other="handleCollapseOther(menu)"
+            @show-float-submenu="handleShowFloatSubmenu"
+            @hide-float-submenu="handleHideFloatSubmenu"></TheSidebarNavList>
+      </template>
 
-        <div class="menu-item d-flex">
-			<a href="javascript:;" class="app-sidebar-minify-btn ms-auto" @click="handleSidebarMinify()">
-                <fa :icon="sidebarMinified ? 'angle-double-right' : 'angle-double-left'"/>
-            </a>
-		</div>
+      <div class="menu-item d-flex">
+        <a href="javascript:;" class="app-sidebar-minify-btn ms-auto" @click="handleSidebarMinify()">
+            <fa :icon="sidebarMinified ? 'angle-double-right' : 'angle-double-left'"/>
+        </a>
+      </div>
     </div>
     <!-- end sidebar nav -->
 </template>
@@ -33,11 +33,11 @@ export default {
 			menus: SidebarMenu
 		}
 	},
-    computed: {
-        sidebarMinified() {
-            return this.$store.state.app.coreAdminPersistent.sidebarMini
-        }
-    },
+  computed: {
+      sidebarMinified() {
+          return this.$store.state.app.coreAdminPersistent.sidebarMini
+      }
+  },
 	methods: {
 		handleShowFloatSubmenu (menu, offset) {
 			this.$emit('show-float-submenu', menu, offset);

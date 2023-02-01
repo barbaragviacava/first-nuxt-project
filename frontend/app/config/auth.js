@@ -1,9 +1,9 @@
 export default {
 
-    numberDaysToExpires: 7,
+  numberDaysToExpires: 7,
 
-    redirect: {
-        logout: '/login',
-        home: '/dashboard'
-    },
+  redirect: {
+    logout: 'login',
+    home: 'dashboard'
+  },
 }

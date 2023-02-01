@@ -1,5 +1,5 @@
 import Auth from './Auth'
 
-export default ({ store, redirect }, inject) => {
-    inject('auth', new Auth(store, redirect))
+export default ({ store, redirect, localePath }, inject) => {
+  inject('auth', new Auth(store, (path) => redirect(localePath(path))))
 }
