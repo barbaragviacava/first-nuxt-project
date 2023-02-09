@@ -1,8 +1,8 @@
 version: '3.7'
 services:
-    trum_front:
-        image: treinamento-frontend:latest
-        container_name: trum-front
+    vue2_front:
+        image: vue-frontend:latest
+        container_name: vue2-front
         stdin_open: true
         build:
             dockerfile: ./docker/Dockerfile

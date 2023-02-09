@@ -21,9 +21,9 @@ class UserAvatarRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'avatar.required' => 'Não foi possível carregar a imagem informada',
-            'avatar.file' => 'O arquivo informado não é válido',
-            'avatar.image' => 'A imagem informada não é válida',
+            'avatar.required' => __('Unable to load the provided image'),
+            'avatar.file' => __('The specified file is not valid'),
+            'avatar.image' => __('The image provided is not valid.'),
         ];
     }
 }

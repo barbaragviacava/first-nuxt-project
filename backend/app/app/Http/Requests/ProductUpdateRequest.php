@@ -23,12 +23,12 @@ class ProductUpdateRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.filled' => 'Você precisa preencher o nome',
-            'price.filled' => 'Você precisa preencher o preço',
-            'price.numeric' => 'O formato de preço informado é inválido',
-            'price.gt' => 'O preço precisa ser maior do que zero',
-            'category_id.filled' => 'Você precisa preencher a categoria',
-            'category_id.exists' => 'A categoria selecionada não existe mais',
+            'name.filled' => __('You need to fill the name'),
+            'price.filled' => __('You need to fill the price'),
+            'price.numeric' => __('The price format sent is invalid'),
+            'price.gt' => __('Price must be greater than zero'),
+            'category_id.filled' => __('You need to select a category'),
+            'category_id.exists' => __('The selected parent category no longer exists'),
         ];
     }
 }

@@ -52,8 +52,8 @@ const messages = {
       toggleActiveAlert: {
         title: 'Tem certeza?',
         html: 'A {singular_name} "{item_name}" será <strong>{status}</strong>.',
-        activated: 'ativad{gender, select, male{os} female{as} other{}}',
-        inactivated: 'inativad{gender, select, male{os} female{as} other{}}',
+        activated: 'ativad{gender, select, male{o} female{a} other{}}',
+        inactivated: 'inativad{gender, select, male{o} female{a} other{}}',
       },
       activeAll: {
         html: '{gender, select, male{Os} female{As} other{}} {plural_name} seleciona{gender, select, male{dos} female{das} other{}} serão <strong>ativa{gender, select, male{dos} female{das} other{}}</strong>.',

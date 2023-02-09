@@ -1,3 +1,21 @@
 {
-    "Unauthenticated." : "Usuário não autenticado."
+    "Unauthenticated." : "Usuário não autenticado.",
+    "E-mail or password are incorrect": "E-mail ou senha estão incorretos.",
+    "You need to fill the name": "Você precisa preencher o nome",
+    "You need to fill the price": "Você precisa preencher o preço",
+    "You need to fill the e-mail": "Você precisa preencher o e-mail",
+    "Name is longer than allowed": "Nome maior do que o permitido",
+    "An active category with that name already exists": "Já existe uma categoria ativa com esse nome",
+    "The selected parent category no longer exists": "A categoria pai selecionada não existe mais",
+    "Submit the ids that will be affected": "Informe os ids que serão afetados",
+    "The price format sent is invalid": "O formato de preço informado é inválido",
+    "Price must be greater than zero": "O preço precisa ser maior do que zero",
+    "You need to select a category": "Você precisa selecionar uma categoria",
+    "Unable to load the provided image": "Não foi possível carregar a imagem informada",
+    "The specified file is not valid": "O arquivo informado não é válido",
+    "The image provided is not valid": "A imagem informada não é válida",
+    "The email sent is not valid": "O e-mail informado não é válido",
+    "This email is already being used by another user": "Este e-mail já está sendo utilizado",
+    "The category cannot be deleted, when there are other categories linked to it": "A categoria não pode ser excluida, quando existem outras categorias vinculadas à ela",
+    "The category cannot be deleted, when there are products linked to it": "A categoria não pode ser excluida, quando existem produtos vinculadas à ela"
 }

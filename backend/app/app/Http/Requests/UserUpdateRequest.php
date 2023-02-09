@@ -28,10 +28,10 @@ class UserUpdateRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.filled' => 'Você precisa preencher o nome',
-            'email.filled' => 'Você precisa preencher o e-mail',
-            'email.email' => 'O e-mail informado não é válido',
-            'email.unique' => 'Este e-mail já está sendo utilizado por outro usuário',
+            'name.filled' => __('You need to fill the name'),
+            'email.filled' => __('You need to fill the e-mail'),
+            'email.email' => __('The email sent is not valid'),
+            'email.unique' => __('This email is already being used'),
         ];
     }
 }

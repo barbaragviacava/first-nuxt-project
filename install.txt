@@ -1,8 +1,0 @@
-backend:
-
-docker-compose up -d
-docker exec -it trum-back composer install
-
-frontend:
-
-docker-compose up

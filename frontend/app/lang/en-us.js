@@ -40,7 +40,7 @@ const messages = {
 
   pages: {
     index: {
-      title: '{name} managing',
+      title: '{name} management',
       home: 'Home',
       add: 'Add',
       filters: 'Filters',

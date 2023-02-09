@@ -35,7 +35,7 @@ it('deve retornar uma mensagem explicando que a categoria não pode ser excluida
         ->json();
 
     expect($response)->toMatchArray([
-        'message' => 'A categoria não pode ser excluida, pois existem outras categorias vinculadas à ela.',
+        'message' => 'The category cannot be deleted, when there are other categories linked to it',
     ]);
 })->group('categories', 'categories.destroy');
 
@@ -51,6 +51,6 @@ it('deve retornar uma mensagem explicando que a categoria não pode ser excluida
         ->json();
 
     expect($response)->toMatchArray([
-        'message' => 'A categoria não pode ser excluida, pois existem produtos vinculadas à ela.',
+        'message' => 'The category cannot be deleted, when there are products linked to it',
     ]);
 })->group('categories', 'categories.destroy');

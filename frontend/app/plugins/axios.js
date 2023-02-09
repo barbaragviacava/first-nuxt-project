@@ -25,6 +25,7 @@ export default function (ctx) {
     if ($auth.isAuthenticated()) {
       config.headers.Authorization = 'Bearer ' + store.state.auth.accessToken
     }
+    config.headers['x-locale'] = i18n.locale
 
     return config
   })

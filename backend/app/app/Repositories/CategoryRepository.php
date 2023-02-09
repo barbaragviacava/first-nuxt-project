@@ -61,10 +61,10 @@ class CategoryRepository extends BaseRepository
     public function delete(Category $model): ?bool
     {
         if ($this->doIhaveChildren($model->id)) {
-            throw new DeleteException('A categoria não pode ser excluida, pois existem outras categorias vinculadas à ela.');
+            throw new DeleteException(__('The category cannot be deleted, when there are other categories linked to it'));
         }
         if ($this->doIhaveProducts($model->id)) {
-            throw new DeleteException('A categoria não pode ser excluida, pois existem produtos vinculadas à ela.');
+            throw new DeleteException(__('The category cannot be deleted, when there are products linked to it'));
         }
 
         return $model->delete();

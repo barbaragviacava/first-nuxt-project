@@ -192,7 +192,7 @@ export default {
 
         this.$auth.setUser(this.user)
 
-        this.$toast.success(this.$t('pages.form.successfullyUpdated'))
+        this.$toast.success(this.$t('pages.form.successfullyUpdated', {gender: 'male'}))
 
       } catch (error) {
         const errorInfo = this.$errorHandler.setAndParse(error)

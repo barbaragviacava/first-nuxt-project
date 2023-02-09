@@ -1,27 +1,27 @@
 version: '3'
 services:
-    trum_db:
-        container_name: trum-db
+    laravel_db:
+        container_name: laravel-db
         image: mysql:5.7
         environment:
             MYSQL_ROOT_PASSWORD: root
-            MYSQL_DATABASE: trum
+            MYSQL_DATABASE: laravel
         volumes:
             - ./docker/mysql.cnf:/etc/mysql/conf.d/custom.cnf
         ports:
             - "3306:3306"
         networks:
             - core_admin
-    trum_back:
-        image: treinamento-backend:latest
+    laravel_back:
+        image: laravel-backend:latest
         build:
             dockerfile: ./docker/Dockerfile
             context: .
-        container_name: trum-back
+        container_name: laravel-back
         env_file:
             - ./env/dev.env
         links:
-            - trum_db:db
+            - laravel_db:db
         volumes:
             - ./app:/var/www/html
             - ./docker/app.ini:/usr/local/etc/php/conf.d/php-extras.ini

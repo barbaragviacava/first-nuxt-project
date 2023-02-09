@@ -21,7 +21,7 @@ class MassChangeRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'ids.required' => 'Informe os ids que serão afetados',
+            'ids.required' => __('Submit the ids that will be affected'),
         ];
     }
 }
