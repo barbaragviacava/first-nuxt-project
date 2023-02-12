@@ -23,8 +23,8 @@
 
 ## Project Images
 <p float="left">
-    <img src="https://user-images.githubusercontent.com/25326917/218339019-3fa4de32-2a74-46c1-ae79-517ec0771c19.png" alt="Login" style="width: 200px">
-    <img src="https://user-images.githubusercontent.com/25326917/218339036-7c0a6061-f183-4b13-a1e8-e5c319641103.png" alt="Profile" style="width: 200px">
+    <img src="https://user-images.githubusercontent.com/25326917/218339497-e2c3e566-fd1e-48a0-9bae-0bca26f4ede8.png" alt="Login" style="width: 200px">
+    <img src="https://user-images.githubusercontent.com/25326917/218339504-7e1b2419-691a-4a10-ba39-0ea3262e78af.png" alt="Profile" style="width: 200px">
     <img src="https://user-images.githubusercontent.com/25326917/218339028-f9553101-89fa-4e5b-94d0-df7eca88c83e.png" alt="Products" style="width: 200px">
 </p>
 
