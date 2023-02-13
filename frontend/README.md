@@ -21,10 +21,6 @@ docker-compose up
 ## :construction: Coming soon
 - Tests with Jest
 
-## :bug: Known bugs
-- Moving elements on the list screen (mobile)
-- Listing inactive categories on category field
-
 ## Author
 <p>Made with :sparkling_heart: by Barbara Viacava</p>
 <img src="https://avatars.githubusercontent.com/u/25326917?v=4" style="width:100px;" alt="My avatar">

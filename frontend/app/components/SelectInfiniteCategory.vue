@@ -72,6 +72,10 @@ export default {
       type: Array,
       default: null
     },
+    onlyActives: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {
@@ -103,7 +107,19 @@ export default {
     },
 
     findCategories(search) {
-      return this.$repository.categories.list({sortBy: 'name', name: search, except_id: this.except, limit: this.meta.limit}).then(({data, meta}) => {
+
+      const params = {
+        sortBy: 'name',
+        name: search,
+        except_id: this.except,
+        limit: this.meta.limit
+      };
+
+      if (this.onlyActives) {
+        params.active = 'yes'
+      }
+
+      return this.$repository.categories.list(params).then(({data, meta}) => {
 
         let categories = data
         if (!this.multiple) {

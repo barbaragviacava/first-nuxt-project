@@ -32,7 +32,17 @@
                   <ValidationProvider v-slot="{ errors, classes }" vid="price" :name="labels.price" rules="required|gt_zero">
                     <div class="mb-3">
                       <label class="form-label required" for="price" :class="{'vee-error' : $validationHelper.hasFieldError(errors)}">{{labels.price}}</label>
-                      <currency-input v-model="registry.price" class="form-control" :placeholder="labels.price" :readonly="isLoading" :class="classes" />
+                      <currency-input
+                        v-model="registry.price"
+                        :currency="$i18n.localeProperties.currency"
+                        :locale="$i18n.localeProperties.code"
+                        :allow-negative="false"
+                        :auto-decimal-mode="true"
+                        class="form-control"
+                        :placeholder="labels.price"
+                        :readonly="isLoading"
+                        :class="classes"
+                      />
                       <InputErrorsList :errors="errors" />
                     </div>
                   </ValidationProvider>
@@ -47,6 +57,7 @@
                     input-id="category_id"
                     :class="classes"
                     :placeholder="labels.category_id"
+                    :only-actives="true"
                   />
                   <InputErrorsList :errors="errors" />
                 </div>
