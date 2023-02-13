@@ -17,6 +17,7 @@
 docker-compose up -d
 docker exec -it laravel-back composer install
 docker exec -it laravel-back artisan migrate --seed
+docker exec -it laravel-back artisan storage:link
 ```
 
 <p>:rocket: This server will run at port 8080 :rocket:</p>
