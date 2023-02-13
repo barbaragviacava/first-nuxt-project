@@ -1,6 +1,6 @@
 # LARAVEL 8
 
-![Badge](https://img.shields.io/badge/coverage-97%25-green?style=flat-square)
+![Badge](https://img.shields.io/badge/coverage-96.6%25-green?style=flat-square)
 
 <p>This project was made for study purposes</p>
 
@@ -23,6 +23,7 @@ docker exec -it laravel-back artisan migrate --seed
 
 ## :muscle: How to run tests (with PEST)
 ```bash
+docker exec -it laravel-back touch ./database/test.sqlite
 docker exec -it laravel-back ./vendor/bin/pest
 docker exec -it laravel-back ./vendor/bin/pest --coverage
 ```

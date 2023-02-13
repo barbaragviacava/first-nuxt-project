@@ -15,7 +15,7 @@ class InitialUserSeeder extends Seeder
 
         User::factory()->create([
             'name' => 'Barbara Viacava',
-            'email' => 'barbara.gviacava@gmail.com',
+            'email' => 'mail@mail.com',
         ]);
     }
 }

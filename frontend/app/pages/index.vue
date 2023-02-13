@@ -14,7 +14,7 @@
         </p>
         <dl>
           <dt class="text-inverse">E-mail</dt>
-          <dd>barbara.gviacava@gmail.com</dd>
+          <dd>mail@mail.com</dd>
           <dt class="text-inverse">{{ $t('pages.initial.password') }}</dt>
           <dd>password</dd>
         </dl>
