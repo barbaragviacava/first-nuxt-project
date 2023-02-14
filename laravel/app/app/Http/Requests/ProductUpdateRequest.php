@@ -23,12 +23,12 @@ class ProductUpdateRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.filled' => __('You need to fill the name'),
-            'name.max' => __('Name is longer than allowed'),
-            'price.filled' => __('You need to fill the price'),
-            'price.numeric' => __('The price format sent is invalid'),
-            'price.gt' => __('Price must be greater than zero'),
-            'price.max' => __('Price is higher than allowed'),
+            'name.filled' => __('You need to fill the :field', ['field' => 'name']),
+            'name.max' => __(':field is longer than allowed', ['field' => 'Name']),
+            'price.filled' => __('You need to fill the :field', ['field' => 'price']),
+            'price.numeric' => __('The :field format sent is invalid', ['field' => 'price']),
+            'price.gt' => __(':field must be greater than zero', ['field' => 'Price']),
+            'price.max' => __(':field is higher than allowed'),
             'category_id.filled' => __('You need to select a category'),
             'category_id.exists' => __('The selected parent category no longer exists'),
         ];

@@ -35,8 +35,8 @@ class CategoryRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required' => __('You need to fill the name'),
-            'name.max' => __('Name is longer than allowed'),
+            'name.required' => __('You need to fill the :field', ['field' => 'name']),
+            'name.max' => __(':field is longer than allowed', ['field' => 'Name']),
             'name.unique' => __('An active category with that name already exists'),
             'parent_category_id.exists' => __('The selected parent category no longer exists'),
         ];

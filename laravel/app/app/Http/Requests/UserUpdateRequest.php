@@ -29,12 +29,12 @@ class UserUpdateRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.filled' => __('You need to fill the name'),
-            'name.max' => __('Name is longer than allowed'),
-            'email.filled' => __('You need to fill the e-mail'),
-            'email.email' => __('The email sent is not valid'),
-            'email.unique' => __('This email is already being used'),
-            'email.max' => __('E-mail is longer than allowed'),
+            'name.filled' => __('You need to fill the :field', ['field' => 'name']),
+            'name.max' => __(':field is longer than allowed', ['field' => 'Name']),
+            'email.filled' => __('You need to fill the :field', ['field' => 'e-mail']),
+            'email.email' => __('The :field sent is not valid', ['field' => 'e-mail']),
+            'email.unique' => __('This :field is already being used', ['field' => 'e-mail']),
+            'email.max' => __(':field is longer than allowed', ['field' => 'E-mail']),
         ];
     }
 }
