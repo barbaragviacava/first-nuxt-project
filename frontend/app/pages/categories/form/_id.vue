@@ -23,7 +23,7 @@
                     <ValidationProvider v-slot="{ errors, classes }" vid="name" :name="labels.name" rules="required">
                     <div class="mb-3">
                       <label class="form-label required" for="name" :class="{'vee-error' : $validationHelper.hasFieldError(errors)}">{{labels.name}}</label>
-                      <BaseInput id="name" v-model="registry.name" maxlength="40" :placeholder="labels.name" :readonly="isLoading" :class="classes" />
+                      <BaseInput id="name" v-model="registry.name" maxlength="35" :placeholder="labels.name" :readonly="isLoading" :class="classes" />
                       <InputErrorsList :errors="errors" />
                     </div>
                   </ValidationProvider>

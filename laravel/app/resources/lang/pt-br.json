@@ -5,6 +5,8 @@
     "You need to fill the price": "Você precisa preencher o preço",
     "You need to fill the e-mail": "Você precisa preencher o e-mail",
     "Name is longer than allowed": "Nome maior do que o permitido",
+    "E-mail is longer than allowed": "E-mail maior do que o permitido",
+    "Price is higher than allowed": "Preço é maior do que o permitido",
     "An active category with that name already exists": "Já existe uma categoria ativa com esse nome",
     "The selected parent category no longer exists": "A categoria pai selecionada não existe mais",
     "Submit the ids that will be affected": "Informe os ids que serão afetados",
