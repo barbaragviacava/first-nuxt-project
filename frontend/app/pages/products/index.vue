@@ -97,10 +97,10 @@
           :filter="filters"
           :empty-text="$t('pages.index.table.emptyText')"
           :empty-filtered-text="$t('pages.index.table.emptyFilteredText')"
-          :current-page="meta.current_page"
-          :per-page="meta.per_page"
-          :sort-by.sync="ordernation.sortBy"
-          :sort-desc.sync="ordernation.sortDesc"
+          :current-page="filters.page"
+          :per-page="filters.limit"
+          :sort-by.sync="order.sortBy"
+          :sort-desc.sync="order.sortDesc"
         >
           <template #table-busy>
             <div class="w-100 text-center">
@@ -109,7 +109,7 @@
           </template>
 
           <template #head(checkbox)>
-            <input v-model="isCheckAllChecked[meta.current_page]" class="form-check-input" type="checkbox" :disabled="isLoading" @click="checkAll">
+            <input v-model="isCheckAllChecked[filters.page]" class="form-check-input" type="checkbox" :disabled="isLoading" @click="checkAll">
           </template>
 
           <template #cell(checkbox)="row">
@@ -153,15 +153,15 @@
           </template>
         </BTable>
 
-        <div v-if="meta.total > meta.per_page" class="d-md-flex align-items-center">
+        <div v-if="meta.total > filters.limit" class="d-md-flex align-items-center">
           <div class="me-md-auto text-md-left text-center mb-2 mb-md-0">
-            {{ $t('pages.index.pagination.paginationMessage', {per_page: meta.per_page, total: meta.total, name: PLURAL_NAME.toLowerCase() }) }}
+            {{ $t('pages.index.pagination.paginationMessage', {per_page: filters.limit, total: meta.total, name: PLURAL_NAME.toLowerCase() }) }}
           </div>
           <ul class="pagination mb-0 justify-content-center">
             <BPagination
-              v-model="meta.current_page"
+              v-model="filters.page"
               :total-rows="meta.total"
-              :per-page="meta.per_page"
+              :per-page="filters.limit"
             />
           </ul>
         </div>
@@ -193,18 +193,16 @@ export default {
         { key: 'actions', label: this.$t('pages.index.actions.actions'), thClass: 'text-end', tdClass: 'text-end' }
       ],
       meta: {
-        total: 0,
-        current_page: 1,
-        per_page: 0,
-        from: 0,
-        to: 0,
+        total: 0
       },
-      ordernation: {
+      order: {
         sortBy: 'name',
         sortDesc: false,
       },
       filters: {
-        active: ''
+        active: '',
+        limit: 20, // per_page
+        page: 1 // current_page
       },
       isCheckAllChecked: {},
       checkedItems: []
@@ -239,9 +237,8 @@ export default {
       const categoriesIds = (categories || []).map(category => category.id)
 
       const { data, meta } = await this.$repository.products.list({
-        sortBy: this.ordernation.sortBy,
-        sortDirection: (this.ordernation.sortDesc ? 'desc' : 'asc'),
-        page: this.meta.current_page,
+        sortBy: this.order.sortBy,
+        sortDirection: (this.order.sortDesc ? 'desc' : 'asc'),
 
         category_id: categoriesIds,
         ...otherFilters
@@ -253,7 +250,7 @@ export default {
     },
 
     checkAll() {
-      if (this.isCheckAllChecked[this.meta.current_page]) {
+      if (this.isCheckAllChecked[this.filters.page]) {
         this.checkedItems = this.checkedItems.filter(id => !this.localItemsId.includes(id));
       } else {
         this.checkedItems = this.checkedItems.concat(this.localItemsId)
