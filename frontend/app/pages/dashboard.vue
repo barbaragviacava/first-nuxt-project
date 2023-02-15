@@ -38,19 +38,32 @@ export default {
       qtyStoredProducts: 0
     }
   },
-  async fetch() {
+  fetchOnServer: false,
+  fetch() {
 
-    try {
+    const parent = this
 
-      this.qtyStoredCategories = await this.$repository.dashboard.countCategories()
-      this.qtyStoredProducts = await this.$repository.dashboard.countProducts()
+    this.$repository.dashboard.countCategories()
+      .then((response) => {
 
-    } catch (errors) {
+        parent.qtyStoredCategories = response
 
-      const errorResponse = this.$errorHandler.setAndParse(errors)
+      }).catch((error) => {
 
-      this.$nuxt.error({ statusCode: errorResponse.status, message: errorResponse.message })
-    }
+        const errorResponse = parent.$errorHandler.setAndParse(error)
+        parent.$nuxt.error({ statusCode: errorResponse.status, message: errorResponse.message })
+      })
+
+    this.$repository.dashboard.countProducts()
+      .then((response) => {
+
+        parent.qtyStoredProducts = response
+
+      }).catch((error) => {
+
+        const errorResponse = parent.$errorHandler.setAndParse(error)
+        parent.$nuxt.error({ statusCode: errorResponse.status, message: errorResponse.message })
+      })
   },
   head() {
     return {
