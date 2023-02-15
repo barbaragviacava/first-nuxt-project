@@ -7,15 +7,25 @@ services:
             MYSQL_ROOT_PASSWORD: root
             MYSQL_DATABASE: laravel
         volumes:
-            - ./docker/mysql.cnf:/etc/mysql/conf.d/custom.cnf
+            - ./docker/db/mysql.cnf:/etc/mysql/conf.d/custom.cnf
         ports:
             - "3306:3306"
+        networks:
+            - core_admin
+    laravel_http:
+        image: nginx:latest
+        container_name: laravel-http
+        volumes:
+            - ./app:/var/www/html
+            - ./docker/http/app.conf:/etc/nginx/conf.d/app.conf
+        ports:
+            - "8080:80"
         networks:
             - core_admin
     laravel_back:
         image: laravel-backend:latest
         build:
-            dockerfile: ./docker/Dockerfile
+            dockerfile: ./docker/php-fpm/Dockerfile
             context: .
         container_name: laravel-back
         env_file:
@@ -24,11 +34,10 @@ services:
             - laravel_db:db
         volumes:
             - ./app:/var/www/html
-            - ./docker/app.ini:/usr/local/etc/php/conf.d/php-extras.ini
-        ports:
-            - "8080:80"
+            - ./docker/php-fpm/app.ini:/usr/local/etc/php/conf.d/php-extras.ini
         networks:
             - core_admin
+
 networks:
     core_admin:
         driver: bridge

@@ -1,11 +1,9 @@
-FROM php:8.1.14-apache-buster
+FROM php:8.1.14-fpm-buster
 
 # Copia os arquivos para dentro da container
 COPY ./docker/composer.sh /usr/local/bin/composer
-COPY ./docker/app.conf /etc/apache2/sites-available/000-default.conf
 COPY ./docker/app.ini /usr/local/etc/php/conf.d/php-extras.ini
 COPY ./docker/artisan.sh /usr/local/bin/artisan
-COPY ./docker/init.sh /init.sh
 
 # Instala as extensões do PHP e outras ferramentas
 RUN apt-get update && apt-get install -y libmcrypt-dev libxml2-dev \
@@ -27,11 +25,8 @@ RUN curl -sS https://getcomposer.org/installer | php \
 # Limpa tudo para a imagem ficar mais leve
 RUN apt-get autoremove -y && apt-get clean
 
-RUN chown -R www-data:www-data /var/www/html && a2enmod rewrite \
-    && chmod 0777 /init.sh /usr/local/bin/artisan /usr/local/bin/composer /usr/local/bin/composer.phar
+RUN chmod 0777 /usr/local/bin/artisan /usr/local/bin/composer /usr/local/bin/composer.phar
 
 WORKDIR /var/www/html
 
-EXPOSE 80
-
-CMD ["/init.sh"]
+EXPOSE 9000

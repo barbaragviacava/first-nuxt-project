@@ -15,7 +15,7 @@ services:
             - "80:3000"
         environment:
             HOST: 0.0.0.0
-            API_URL: "http://laravel-back"
+            API_URL: "http://laravel-http"
         networks:
             - laravel_core_admin
             
