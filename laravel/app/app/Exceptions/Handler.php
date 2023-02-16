@@ -47,11 +47,5 @@ class Handler extends ExceptionHandler
                 'text_code' => 'NOT_FOUND',
             ], 404);
         });
-        $this->renderable(function (\Throwable $e) {
-            return response()->json([
-                'message' => $e->getMessage(),
-                'text_code' => 'ERROR',
-            ], $e->getCode() ?: 400);
-        });
     }
 }
