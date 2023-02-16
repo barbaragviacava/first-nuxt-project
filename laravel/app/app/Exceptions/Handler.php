@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -39,6 +40,18 @@ class Handler extends ExceptionHandler
                 'message' => __($e->getMessage()),
                 'text_code' => 'UNAUTHENTICATED',
             ], 401);
+        });
+        $this->renderable(function (NotFoundHttpException $e) {
+            return response()->json([
+                'message' => __('Not found'),
+                'text_code' => 'NOT_FOUND',
+            ], 404);
+        });
+        $this->renderable(function (\Throwable $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+                'text_code' => 'ERROR',
+            ], $e->getCode() ?: 400);
         });
     }
 }

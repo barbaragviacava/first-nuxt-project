@@ -35,7 +35,7 @@
     </template>
 
     <template #list-footer>
-      <li v-show="hasNextPage" ref="load" class="loader">
+      <li v-show="hasNextPage" ref="load" class="loader" style="text-align: center;">
         {{ $t('components.selectInfiniteCategory.searchingMore') }}...
       </li>
     </template>

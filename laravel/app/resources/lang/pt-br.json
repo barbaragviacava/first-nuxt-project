@@ -1,5 +1,6 @@
 {
     "Unauthenticated" : "Usuário não autenticado",
+    "Not found": "Não encontrado",
     "E-mail or password are incorrect": "E-mail ou senha estão incorretos.",
     "You need to fill the :field": "Você precisa preencher o :field",
     ":field is longer than allowed": ":field é maior do que o permitido",
