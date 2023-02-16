@@ -1,6 +1,6 @@
 # VUE 2 + NUXT
 
-<p>This project was made for study purposes</p>
+<p>:books: This project was made for study purposes</p>
 
 ## Technologies
 
