@@ -1,9 +1,8 @@
 FROM php:8.1.14-fpm-buster
 
 # Copia os arquivos para dentro da container
-COPY ./docker/composer.sh /usr/local/bin/composer
-COPY ./docker/app.ini /usr/local/etc/php/conf.d/php-extras.ini
-COPY ./docker/artisan.sh /usr/local/bin/artisan
+COPY ./docker/php-fpm/composer.sh /usr/local/bin/composer
+COPY ./docker/php-fpm/artisan.sh /usr/local/bin/artisan
 
 # Instala as extensões do PHP e outras ferramentas
 RUN apt-get update && apt-get install -y libmcrypt-dev libxml2-dev \
