@@ -32,3 +32,5 @@ docker exec -it laravel-back ./vendor/bin/pest --coverage
 ## Author
 <p>Made with :sparkling_heart: by Barbara Viacava</p>
 <img src="https://avatars.githubusercontent.com/u/25326917?v=4" style="width:100px;" alt="My avatar">
+
+Thiago
